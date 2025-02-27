@@ -1,0 +1,31 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Ll]ogs/
+# User-specific files
+.idea/
+.vscode/
+# Windows image file caches
+Thumbs.db
+Desktop.ini
+# OS generated files
+.DS_Store
+# Unity build folder
+Build/
+Builds/
+# User-specific build files
+userprefs/
+# Git LFS files (e.g. large assets)
+# You can add specific types of large files to LFS
+*.psd
+*.tga
+*.fbx
+*.obj
+*.wav
+*.mp3
+*.ogg
+*.png
+*.jpg
+*.tiff
