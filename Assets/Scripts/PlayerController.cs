@@ -36,8 +36,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Print the input values to the console
-        Debug.Log("Horizontal Input: " + horizontalInput);
-        Debug.Log("Vertical Input: " + verticalInput);
+        //Debug.Log("Horizontal Input: " + horizontalInput);
+        //Debug.Log("Vertical Input: " + verticalInput);
 
         // Calculate movement direction based on input
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized;
