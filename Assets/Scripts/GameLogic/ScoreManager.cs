@@ -1,0 +1,100 @@
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System;
+
+public class ScoreManager : MonoBehaviour
+{
+    private string baseUrl = "https://localhost:7154/api/";
+
+    public IEnumerator SendScoreToApi(int score)
+    {
+        int userId = PlayerPrefs.GetInt("userId", -1);
+        if (userId == -1)
+        {
+            Debug.LogError("No userId found in PlayerPrefs.");
+            yield break;
+        }
+
+        string token = PlayerPrefs.GetString("authToken", null);
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("No authToken found in PlayerPrefs.");
+            yield break;
+        }
+
+        var scoreRequest = new ScoreRequest
+        {
+            userId = userId,
+            scoreValue = score
+        };
+
+        string json = JsonUtility.ToJson(scoreRequest);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(baseUrl + "score", "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error: {request.error}");
+            }
+            else if (request.responseCode == 500)
+            {
+                Debug.LogError($"Server Error: {request.downloadHandler.text}");
+            }
+            else
+            {
+                Debug.Log("Score successfully sent to the API.");
+                Debug.Log(request.downloadHandler.text);
+            }
+        }
+    }
+
+    public void FetchAllScores(Action<List<ScoreResponse>> callback)
+    {
+        StartCoroutine(GetAllScores(callback));
+        Debug.Log("Fetching all scores...");
+    }
+
+    private IEnumerator GetAllScores(Action<List<ScoreResponse>> callback)
+    {
+        Debug.Log("Requesting URL: " + baseUrl + "score");
+        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + "score"))
+        {
+            string token = PlayerPrefs.GetString("authToken");
+            Debug.Log("Auth Token : " + token);
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("API Request Failed: " + request.error);
+                callback?.Invoke(null);
+            }
+            else
+            {
+                Debug.Log("API Response: " + request.downloadHandler.text);
+                string json = "{\"items\":" + request.downloadHandler.text + "}";
+                Wrapper<ScoreResponse> wrapper = JsonUtility.FromJson<Wrapper<ScoreResponse>>(json);
+                callback?.Invoke(wrapper.items);
+            }
+        }
+    }
+
+    private class Wrapper<T>
+    {
+        public List<T> items;
+    }
+}
