@@ -43,65 +43,58 @@ public class PlayButton : MonoBehaviour
 
     private IEnumerator PopulateWeaponChoices()
     {
-        bool weaponsFetched = false;
-
-        weaponManager.FetchAllWeapons(weapons =>
+        // Ensure userWeapons is populated
+        if (StoreManager.userWeapons == null || StoreManager.userWeapons.Count == 0)
         {
-            if (weapons != null)
+            Debug.LogError("User weapons list is empty. Cannot populate weapon choices.");
+            yield break;
+        }
+
+        // Clear existing entries
+        foreach (Transform child in PrimaryChoiceContent) Destroy(child.gameObject);
+        foreach (Transform child in SecondaryChoiceContent) Destroy(child.gameObject);
+
+        // Populate Primary and Secondary choices based on EquipmentSlot
+        foreach (var weapon in StoreManager.userWeapons)
+        {
+            GameObject entry = Instantiate(WpnEntryPrefab);
+            TMP_Text weaponText = entry.transform.Find("WeaponNameText").GetComponent<TMP_Text>();
+            Button weaponButton = entry.GetComponent<Button>();
+
+            if (weaponText != null)
             {
-                // Clear existing entries
-                foreach (Transform child in PrimaryChoiceContent) Destroy(child.gameObject);
-                foreach (Transform child in SecondaryChoiceContent) Destroy(child.gameObject);
-
-                // Populate Primary and Secondary choices based on EquipmentSlot
-                foreach (var weapon in weapons)
-                {
-                    GameObject entry = Instantiate(WpnEntryPrefab);
-                    TMP_Text weaponText = entry.transform.Find("WeaponNameText").GetComponent<TMP_Text>();
-                    Button weaponButton = entry.GetComponent<Button>();
-
-                    if (weaponText != null)
-                    {
-                        weaponText.text = weapon.name;
-                    }
-
-                    // Assign the OnWeaponClicked listener
-                    weaponButton.onClick.AddListener(() => OnWeaponClicked(weapon, weaponButton));
-
-                    // Place weapon in the appropriate slot based on EquipmentSlot
-                    if (weapon.weaponType.equipmentSlot == EquipmentSlot.Secondary)
-                    {
-                        entry.transform.SetParent(SecondaryChoiceContent, false);
-                    }
-                    else if (weapon.weaponType.equipmentSlot == EquipmentSlot.Primary)
-                    {
-                        entry.transform.SetParent(PrimaryChoiceContent, false);
-                    }
-
-                    // Highlight preselected weaponId 1 for secondary and weaponId 3 for primary
-                    if (weapon.weaponId == 1)
-                    {
-                        selectedSecondaryWeaponId = weapon.weaponId;
-                        selectedSecondaryButton = weaponButton;
-                        HighlightButton(weaponButton, true);
-                    }
-                    else if (weapon.weaponId == 3)
-                    {
-                        selectedPrimaryWeaponId = weapon.weaponId;
-                        selectedPrimaryButton = weaponButton;
-                        HighlightButton(weaponButton, true);
-                    }
-                }
-            }
-            else
-            {
-                Debug.LogError("Failed to fetch weapons.");
+                weaponText.text = weapon.name;
             }
 
-            weaponsFetched = true;
-        });
+            // Assign the OnWeaponClicked listener
+            weaponButton.onClick.AddListener(() => OnWeaponClicked(weapon, weaponButton));
 
-        yield return new WaitUntil(() => weaponsFetched);
+            // Place weapon in the appropriate slot based on EquipmentSlot
+            if (weapon.weaponType.equipmentSlot == EquipmentSlot.Secondary)
+            {
+                entry.transform.SetParent(SecondaryChoiceContent, false);
+            }
+            else if (weapon.weaponType.equipmentSlot == EquipmentSlot.Primary)
+            {
+                entry.transform.SetParent(PrimaryChoiceContent, false);
+            }
+
+            // Highlight preselected weaponId 1 for secondary and weaponId 3 for primary
+            if (weapon.weaponId == 1)
+            {
+                selectedSecondaryWeaponId = weapon.weaponId;
+                selectedSecondaryButton = weaponButton;
+                HighlightButton(weaponButton, true);
+            }
+            else if (weapon.weaponId == 3)
+            {
+                selectedPrimaryWeaponId = weapon.weaponId;
+                selectedPrimaryButton = weaponButton;
+                HighlightButton(weaponButton, true);
+            }
+        }
+
+        yield return null;
     }
 
     private void OnWeaponClicked(WeaponResponse weapon, Button weaponButton)

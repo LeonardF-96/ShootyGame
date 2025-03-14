@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Linq;
 using System;
 
@@ -24,7 +25,7 @@ public class WeaponManager : MonoBehaviour
     {
         Debug.Log("GetAllWeapons called");
         // Create a new UnityWebRequest for a GET request to fetch all weapons
-        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}weapon"))
+        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}Weapon"))
         {
             // Retrieve the authentication token from PlayerPrefs
             string token = PlayerPrefs.GetString("authToken");
@@ -48,13 +49,26 @@ public class WeaponManager : MonoBehaviour
 
             // Retrieve the JSON response from the server
             string json = request.downloadHandler.text;
+
+            // Hardcoded JSON response for testing
+            //string json = "{\"array\":[{\"weaponId\":1,\"name\":\"M9\",\"price\":0,\"reloadSpeed\":0.95,\"magSize\":15,\"fireRate\":600,\"fireMode\":\"0\",\"weaponType\":{\"weaponTypeId\":1,\"name\":\"Pistol\",\"equipmentSlot\":\"Secondary\"}},{\"weaponId\":2,\"name\":\"Tec9\",\"price\":400,\"reloadSpeed\":1.05,\"magSize\":18,\"fireRate\":1200,\"fireMode\":\"1\",\"weaponType\":{\"weaponTypeId\":2,\"name\":\"Machine Pistol\",\"equipmentSlot\":\"Secondary\"}},{\"weaponId\":3,\"name\":\"G36\",\"price\":0,\"reloadSpeed\":1.9,\"magSize\":30,\"fireRate\":750,\"fireMode\":\"1\",\"weaponType\":{\"weaponTypeId\":3,\"name\":\"Assault Rifle\",\"equipmentSlot\":\"Primary\"}},{\"weaponId\":4,\"name\":\"Scar-H\",\"price\":800,\"reloadSpeed\":1.82,\"magSize\":15,\"fireRate\":300,\"fireMode\":\"0\",\"weaponType\":{\"weaponTypeId\":4,\"name\":\"Marksman Rifle\",\"equipmentSlot\":\"Primary\"}}]}";
             Debug.Log($"Raw JSON received: {json}");
 
             try
             {
-                fetchedWeapons = JsonHelper.FromJsonArray<WeaponResponse>(json);
-                Debug.Log($"Fetched {fetchedWeapons.Count} weapons.");
-                callback?.Invoke(fetchedWeapons);
+                //fetchedWeapons = JsonHelper.FromJsonArray<WeaponResponse>(json);
+                fetchedWeapons = JsonConvert.DeserializeObject<List<WeaponResponse>>(json);
+                // Ensure fireMode strings are converted to the correct enum
+                if (fetchedWeapons != null)
+                {
+                    Debug.Log($"Fetched {fetchedWeapons.Count} weapons.");
+                    callback?.Invoke(fetchedWeapons);
+                }
+                else
+                {
+                    Debug.LogError("Deserialized weapon list is null.");
+                    callback?.Invoke(null);
+                }
             }
             catch (Exception ex)
             {
@@ -63,7 +77,7 @@ public class WeaponManager : MonoBehaviour
             }
         }
     }
-    // Method to convert FireMode string to enum
+    //Method to convert FireMode string to enum
     public static FireMode ParseFireMode(string fireModeString)
     {
         // Try to parse the string value to the FireMode enum
@@ -74,6 +88,18 @@ public class WeaponManager : MonoBehaviour
         else
         {
             return FireMode.Single; // Default to Single if parsing fails
+        }
+    }
+    public static EquipmentSlot ParseEquipmentSlot(string equipmentSlotString)
+    {
+        // Try to parse the string value to the EquipmentSlot enum
+        if (Enum.TryParse(equipmentSlotString, true, out EquipmentSlot equipmentSlot))
+        {
+            return equipmentSlot;
+        }
+        else
+        {
+            return EquipmentSlot.Primary; // Default to Primary if parsing fails
         }
     }
     public void FetchUserWeapons(int userId, Action<List<User_WeaponResponse>> callback)

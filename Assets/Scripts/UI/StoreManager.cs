@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class StoreManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] public Button backButton;
 
     private WeaponResponse selectedWeapon;
-    private List<WeaponResponse> userWeapons = new List<WeaponResponse>();
+    public static List<WeaponResponse> userWeapons = new List<WeaponResponse>();
 
     // Start is called before the first frame update
     void Start()
@@ -65,12 +66,32 @@ public class StoreManager : MonoBehaviour
         buyButton.onClick.AddListener(OnBuyButtonClicked);
         backButton.onClick.AddListener(OnBackButtonClicked);
 
-        FetchUserWeapons();
+        StartCoroutine(InitializeStore());
     }
-    private void FetchUserWeapons()
+    private IEnumerator InitializeStore()
+    {
+        bool userWeaponsFetched = false;
+
+        FetchUserWeapons(() =>
+        {
+            userWeaponsFetched = true;
+            foreach (var weapon in userWeapons)
+            {
+                Debug.Log($"Weapon: {weapon.name}, Slot: {weapon.weaponType.equipmentSlot}");
+            }
+        });
+
+        yield return new WaitUntil(() => userWeaponsFetched);
+    }
+    public void FetchUserWeapons(Action callback)
     {
         int userId = PlayerPrefs.GetInt("userId"); // Assuming userId is stored in PlayerPrefs
-        weaponManager.FetchUserWeapons(userId, SetUserWeapons);
+        Debug.Log("Fetching user weapons...");
+        weaponManager.FetchUserWeapons(userId, userWeaponResponses =>
+        {
+            SetUserWeapons(userWeaponResponses);
+            callback?.Invoke();
+        });
     }
     public void SetUserWeapons(List<User_WeaponResponse> userWeaponResponses)
     {
@@ -85,7 +106,7 @@ public class StoreManager : MonoBehaviour
 
         foreach (var weapon in userWeapons)
         {
-            Debug.Log($"Owned weapon - ID: {weapon.weaponId}, Name: {weapon.name}");
+            Debug.Log($"Owned weapon - ID: {weapon.weaponId}, Name: {weapon.name}, Slot: {weapon.weaponType.equipmentSlot}");
         }
     }
     private List<WeaponResponse> ConvertToWeaponResponses(List<User_WeaponResponse> userWeaponResponses)
@@ -93,6 +114,7 @@ public class StoreManager : MonoBehaviour
         List<WeaponResponse> weaponResponses = new List<WeaponResponse>();
         foreach (var userWeapon in userWeaponResponses)
         {
+            Debug.Log("userWeapon: " + userWeapon);
             WeaponResponse weaponResponse = new WeaponResponse
             {
                 weaponId = userWeapon.weaponId,
@@ -106,7 +128,7 @@ public class StoreManager : MonoBehaviour
                 {
                     weaponTypeId = userWeapon.weaponType.weaponTypeId,
                     name = userWeapon.weaponType.name,
-                    equipmentSlot = userWeapon.weaponType.equipmentSlot
+                    equipmentSlot = userWeapon.weaponType.equipmentSlot // Parse equipmentSlot
                 }
             };
             weaponResponses.Add(weaponResponse);
@@ -146,12 +168,8 @@ public class StoreManager : MonoBehaviour
                 {
                     Destroy(child.gameObject);
                 }
-                // Ensure userWeapons is not null
-                if (userWeapons == null)
-                {
-                    Debug.LogWarning("userWeapons is null, initializing an empty list.");
-                    userWeapons = new List<WeaponResponse>();
-                }
+                // Ensure userWeapons is initialized
+                //userWeapons ??= new List<WeaponResponse>();
 
                 // Instantiate weapon entries
                 foreach (var weapon in weapons)
@@ -165,28 +183,24 @@ public class StoreManager : MonoBehaviour
                     {
                         Debug.LogError("Missing components in weapon prefab");
                     }
-                    else
+                    wpnNameText.text = weapon.name;
+
+                    // Check if user owns this weapon
+                    bool ownsWeapon = userWeapons.Exists(userWeapon => userWeapon.weaponId == weapon.weaponId);
+                    button.interactable = !ownsWeapon;
+
+                    button.onClick.AddListener(() =>
                     {
-                        wpnNameText.text = weapon.name;
-                        Debug.Log("Weapon name set: " + weapon.name);
-
-                        button.onClick.AddListener(() =>
-                        {
-                            selectedWeapon = weapon;
-                            weaponNameText.text = weapon.name;
-                            weaponTypeText.text = "Type: " + weapon.weaponType.name;
-                            weaponPriceText.text = "Price: " + weapon.price.ToString();
-                            weaponReloadSpeedText.text = "Reload Time: " + weapon.reloadSpeed.ToString();
-                            weaponMagSizeText.text = "Magazine Size: " + weapon.magSize.ToString();
-                            weaponFireRateText.text = "Firerate: " + weapon.fireRate.ToString();
-                            weaponFireModeText.text = "Firemode: " + weapon.fireMode.ToString();
-
-                            // Check if the user already owns the weapon
-                            bool ownsWeapon = userWeapons.Exists(w => w.weaponId == weapon.weaponId);
-                            Debug.Log($"Checking ownership for weapon ID {weapon.weaponId}: {(ownsWeapon ? "Owned" : "Not owned")}");
-                            buyButton.interactable = !ownsWeapon;
-                        });
-                    }
+                        selectedWeapon = weapon;
+                        weaponNameText.text = weapon.name;
+                        weaponTypeText.text = "Type: " + weapon.weaponType.name;
+                        weaponPriceText.text = "Price: " + weapon.price.ToString();
+                        weaponReloadSpeedText.text = "Reload Time: " + weapon.reloadSpeed.ToString();
+                        weaponMagSizeText.text = "Magazine Size: " + weapon.magSize.ToString();
+                        weaponFireRateText.text = "Firerate: " + weapon.fireRate.ToString();
+                        weaponFireModeText.text = "Firemode: " + weapon.fireMode.ToString();
+                        CheckBuyButton(weapon);
+                    });
                 }
                 weaponsFetched = true;
             }
@@ -221,6 +235,39 @@ public class StoreManager : MonoBehaviour
         {
             Debug.LogWarning("No weapon selected to buy.");
         }
+    }
+    private void CheckBuyButton(WeaponResponse weapon)
+    {
+        Debug.Log($"Checking ownership for weapon '{weapon.name}' (ID: {weapon.weaponId})");
+        Debug.Log($"Total user weapons: {userWeapons.Count}");
+
+        if (userWeapons.Count == 0)
+        {
+            Debug.LogWarning("userWeapons list is empty.");
+        }
+
+        foreach (var userWeapon in userWeapons)
+        {
+            Debug.Log($"User owns weapon '{userWeapon.name}' (ID: {userWeapon.weaponId})");
+        }
+
+        bool ownsWeapon = false;
+
+        foreach (var userWeapon in userWeapons)
+        {
+            Debug.Log($"Comparing weapon '{weapon.name}' (ID: {weapon.weaponId}, Type: {weapon.weaponId.GetType()}) " +
+                      $"with user weapon '{userWeapon.name}' (ID: {userWeapon.weaponId}, Type: {userWeapon.weaponId.GetType()})");
+
+            if (userWeapon.weaponId == weapon.weaponId)
+            {
+                ownsWeapon = true;
+                Debug.Log($"Match found: {weapon.name} is owned.");
+                break; // No need to check further once we find a match
+            }
+        }
+
+        Debug.Log($"Final ownership status for '{weapon.name}': {ownsWeapon}");
+        buyButton.interactable = !ownsWeapon;
     }
 
     private void OnBackButtonClicked()

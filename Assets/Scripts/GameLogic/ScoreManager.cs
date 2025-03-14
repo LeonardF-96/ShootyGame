@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
 {
     private string baseUrl = "https://localhost:7154/api/";
 
-    public IEnumerator SendScoreToApi(int score)
+    public IEnumerator SendScoreToApi(ScoreRequest scoreRequest)
     {
         int userId = PlayerPrefs.GetInt("userId", -1);
         if (userId == -1)
@@ -25,11 +25,11 @@ public class ScoreManager : MonoBehaviour
             yield break;
         }
 
-        var scoreRequest = new ScoreRequest
-        {
-            userId = userId,
-            scoreValue = score
-        };
+        //var scoreRequest = new ScoreRequest
+        //{
+        //    userId = userId,
+        //    scoreValue = score
+        //};
 
         string json = JsonUtility.ToJson(scoreRequest);
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
@@ -67,8 +67,8 @@ public class ScoreManager : MonoBehaviour
 
     private IEnumerator GetAllScores(Action<List<ScoreResponse>> callback)
     {
-        Debug.Log("Requesting URL: " + baseUrl + "score");
-        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + "score"))
+        Debug.Log("Requesting URL: " + baseUrl + "Score");
+        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + "Score"))
         {
             string token = PlayerPrefs.GetString("authToken");
             Debug.Log("Auth Token : " + token);
@@ -109,8 +109,8 @@ public class ScoreManager : MonoBehaviour
 
     private IEnumerator GetUserScores(int userId)
     {
-        string endpoint = $"User/{userId}/scores";
-        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + endpoint))
+        string endpoint = $"User/";
+        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + endpoint + userId))
         {
             string token = PlayerPrefs.GetString("authToken");
             if (!string.IsNullOrEmpty(token))

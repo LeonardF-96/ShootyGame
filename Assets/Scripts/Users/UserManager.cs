@@ -16,7 +16,7 @@ public class UserManager : MonoBehaviour
 
     private IEnumerator GetAllUsers(Action<List<UserResponse>> callback)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + "user"))
+        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + "User"))
         {
             string token = PlayerPrefs.GetString("authToken");
             if (!string.IsNullOrEmpty(token))
@@ -48,7 +48,7 @@ public class UserManager : MonoBehaviour
 
     public IEnumerator GetUserById(int userId, Action<UserResponse> callback)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}/{userId}"))
+        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}/User/{userId}"))
         {
             yield return request.SendWebRequest();
 

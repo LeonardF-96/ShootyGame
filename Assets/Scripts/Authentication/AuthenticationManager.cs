@@ -51,6 +51,8 @@ public class AuthenticationManager : MonoBehaviour
     void Start()
     {
         mainMenuController = FindObjectOfType<MainMenuController>();
+        weaponManager = FindObjectOfType<WeaponManager>();
+        scoreManager = FindObjectOfType<ScoreManager>();
 
         loginButton.onClick.AddListener(OnLoginButtonClicked);
         signUpButton.onClick.AddListener(OnSignUpButtonClicked);

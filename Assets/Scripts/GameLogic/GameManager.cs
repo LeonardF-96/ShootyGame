@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private int totalMisses;
     private float averageAccuracy;
     private float startTime;
+    private float elapsedTime;
     private int MoneyEarned;
 
     private bool gameStarted = false;
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
         // Check if instance exists
         if (instance == null)
         {
-            Debug.LogError("ApiManager not found in scene.");
+            Debug.LogError("ScoreManager not found in scene.");
         }
 
 
@@ -91,14 +92,14 @@ public class GameManager : MonoBehaviour
     // Update the stopwatch UI with the elapsed time since startTime
     private void UpdateStopwatch()
     {
-        float elapsedTime = Time.time - startTime;
-        TimeSpan timeSpan = TimeSpan.FromSeconds(elapsedTime);
+        float StopWatchTime = Time.time - startTime;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(StopWatchTime);
         stopwatchText.text = timeSpan.ToString(@"mm\:ss\.fff"); // Show seconds with milliseconds
     }
     // Calculate the final score, including time-based bonus
     private void CalculateFinalScore()
     {
-        float elapsedTime = Time.time - startTime;
+        elapsedTime = Time.time - startTime;
         int timeBonus = CalculateTimeBonus(elapsedTime);
         score += timeBonus;
         Debug.Log("Time Bonus: " + timeBonus);
@@ -217,7 +218,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator ShowStatsPanel()
     {
         // Calculate and display the stats
-        float elapsedTime = Time.time - startTime;
+        elapsedTime = Time.time - startTime;
         TimeSpan timeSpan = TimeSpan.FromSeconds(elapsedTime);
 
         if (statsPanel != null)
@@ -260,16 +261,25 @@ public class GameManager : MonoBehaviour
             Debug.LogError("No authToken found in PlayerPrefs.");
             yield break;
         }
+        if (scoreManager == null)
+        {
+            Debug.LogError("scoreManager is null.");
+            yield break;
+        }
+        float roundedElapsedTime = Mathf.Round(elapsedTime * 100f) / 100f; // Round to 2 decimal places
+        float roundedAccuracy = Mathf.Round(averageAccuracy * 100f) / 100f; // Round to 2 decimal places
 
         ScoreRequest scoreRequest = new ScoreRequest
         {
             userId = userId,
             scoreValue = score,
-            roundTime = TimeSpan.FromSeconds(Time.time - startTime).Seconds,
-            averageAccuracy = averageAccuracy
+            roundTime = roundedElapsedTime,
+            averageAccuracy = roundedAccuracy
         };
-
-        yield return StartCoroutine(scoreManager.SendScoreToApi(score));
+        Debug.Log($"Score request: {scoreRequest}");
+        Debug.Log("Sending score to API...");
+        yield return StartCoroutine(scoreManager.SendScoreToApi(scoreRequest));
+        Debug.Log("Score sent to API.");
     }
 }
 

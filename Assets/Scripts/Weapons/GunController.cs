@@ -26,6 +26,7 @@ public class GunController : MonoBehaviour
     private bool isReloading = false;
     public int magSize;
     public int currentAmmo;
+    public FireMode fireMode;
 
     void Start()
     {
@@ -54,7 +55,12 @@ public class GunController : MonoBehaviour
         {
             return;
         }
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        if (fireMode == FireMode.Auto && Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        {
+            nextTimeToFire = Time.time + 60f / fireRate;
+            Shoot();
+        }
+        else if (fireMode == FireMode.Single && Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
         {
             nextTimeToFire = Time.time + 60f / fireRate;
             Shoot();
@@ -220,7 +226,8 @@ public class GunController : MonoBehaviour
         fireRate = weapon.fireRate > 0 ? weapon.fireRate : 1; // Prevent divide by zero
         reloadSpeed = weapon.reloadSpeed;
         magSize = weapon.magSize;
+        fireMode = weapon.fireMode;
 
-        Debug.Log($"Applied weapon data: ID={weaponId}, Type={weaponType}, FireRate={fireRate}, ReloadSpeed={reloadSpeed}, MagSize={magSize}");
+        Debug.Log($"Applied weapon data: ID={weaponId}, Type={weaponType}, FireRate={fireRate}, ReloadSpeed={reloadSpeed}, MagSize={magSize}, FireMode={fireMode}");
     }
 }

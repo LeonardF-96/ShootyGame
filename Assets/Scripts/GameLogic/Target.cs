@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public float rotationAngle = 90f; // Angle to rotate upon being hit
+    public float rotationAngle = -90f; // Angle to rotate upon being hit
     public float rotationDuration = 0.4f; // Duration of the rotation animation
     public Transform rotationPivot; // Reference to the parent object that acts as the rotation pivot
 

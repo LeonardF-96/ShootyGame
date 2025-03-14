@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
+using UnityEngine.UI;
 
 public class HighscoreManager : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class HighscoreManager : MonoBehaviour
     public GameObject highscorePanel;
     private ScoreManager scoreManager;
     private UserManager userManager;
+
+    [Header("Buttons")]
+    public Button global_HS_Button;
+    public Button friends_HS_Button;
+
+    private string currentState = "Global";
     //A dictionary to store userId and their corresponding usernames
     private Dictionary<int, string> userDictionary = new Dictionary<int, string>();
 
@@ -25,27 +32,57 @@ public class HighscoreManager : MonoBehaviour
         {
             Debug.LogError("ScoreManager not found in the scene!");
         }
+        else
+        {
+            Debug.Log("ScoreManager found and initialized.");
+        }
 
         if (userManager == null)
         {
             Debug.LogError("UserManager not found in the scene!");
         }
+        else
+        {
+            Debug.Log("UserManager found and initialized.");
+        }
     }
 
     public void FetchAndDisplayHighscores()
     {
+        Debug.Log($"FetchAndDisplayHighscores called. This HighscoreManager instance: {GetInstanceID()}");
+
+        if (scoreManager == null)
+        {
+            // Try re-fetching just in case it was lost somehow
+            scoreManager = FindObjectOfType<ScoreManager>();
+            Debug.Log(scoreManager != null
+                ? "Re-fetched ScoreManager successfully."
+                : "Failed to re-fetch ScoreManager.");
+        }
+
         if (scoreManager != null)
         {
-           Debug.Log("Fetching users and highscores...");
+            Debug.Log("Fetching users and highscores from " + currentState);
             StartCoroutine(FetchUsersAndScores());
         }
         else
         {
-            Debug.LogError("ApiManager not found in the scene!");
+            Debug.LogError("scoreManager not found in the scene!");
         }
     }
     private IEnumerator FetchUsersAndScores()
     {
+        if (userManager == null)
+        {
+            Debug.LogWarning("userManager was null — trying to re-fetch.");
+            userManager = FindObjectOfType<UserManager>();
+
+            if (userManager == null)
+            {
+                Debug.LogError("userManager still not found! Aborting.");
+                yield break; // Stop coroutine if still null
+            }
+        }
         bool usersFetched = false;
 
         // Fetch all users first
@@ -70,14 +107,33 @@ public class HighscoreManager : MonoBehaviour
         // Wait until users are fetched before proceeding
         yield return new WaitUntil(() => usersFetched);
 
-        // Now fetch and display scores
+        // Double-check scoreManager again
+        if (scoreManager == null)
+        {
+            Debug.LogWarning("scoreManager was null — trying to re-fetch.");
+            scoreManager = FindObjectOfType<ScoreManager>();
+
+            if (scoreManager == null)
+            {
+                Debug.LogError("scoreManager still not found! Aborting.");
+                yield break; // Stop coroutine if still null
+            }
+        }
+
+        // Fetch and display scores
         scoreManager.FetchAllScores(scores =>
         {
+            if (scores == null)
+            {
+                Debug.LogError("Failed to fetch scores.");
+                return;
+            }
+
             foreach (var score in scores)
             {
                 string displayName = userDictionary.ContainsKey(score.userId)
                     ? userDictionary[score.userId]
-                    : $"User {score.userId}"; // Fallback to "User [ID]" if username is missing
+                    : $"User {score.userId}";
 
                 Debug.Log($"Score: {score.scoreValue}, User: {displayName}");
             }
@@ -87,17 +143,11 @@ public class HighscoreManager : MonoBehaviour
     }
     private void DisplayHighscores(List<ScoreResponse> scores)
     {
-        highscorePanel.SetActive(true);
+        highscorePanel.SetActive(!highscorePanel.activeSelf);
         if (scores == null)
         {
             Debug.LogError("Failed to fetch highscores.");
             return;
-        }
-
-        Debug.Log("Displaying " + scores.Count + " highscores.");
-        foreach (var score in scores)
-        {
-            Debug.Log("Score: " + score.scoreValue + " by user: " + score.userId);
         }
 
         // Clear old entries
@@ -121,13 +171,19 @@ public class HighscoreManager : MonoBehaviour
             TMP_Text rankText = entry.transform.Find("RankText").GetComponent<TMP_Text>();
             TMP_Text userText = entry.transform.Find("UserText").GetComponent<TMP_Text>();
             TMP_Text scoreText = entry.transform.Find("ScoreText").GetComponent<TMP_Text>();
+            TMP_Text timeText = entry.transform.Find("TimeText").GetComponent<TMP_Text>();
+            TMP_Text accuracyText = entry.transform.Find("AccuText").GetComponent<TMP_Text>();
 
             if (rankText == null) Debug.LogError("RankText not found in prefab!");
             if (userText == null) Debug.LogError("UserText not found in prefab!");
             if (scoreText == null) Debug.LogError("ScoreText not found in prefab!");
+            if (timeText == null) Debug.LogError("TimeText not found in prefab!");
+            if (accuracyText == null) Debug.LogError("AccuText not found in prefab!");
 
             rankText.text = (i + 1).ToString(); // Convert int to string
             scoreText.text = score.scoreValue.ToString(); // Convert int to string
+            timeText.text = score.roundTime.ToString(); // Convert float to string
+            accuracyText.text = score.averageAccuracy.ToString() + "%"; // Convert float to string
             // Look up the username from userDictionary using userId
             if (userDictionary.TryGetValue(score.userId, out string username))
             {
@@ -137,6 +193,22 @@ public class HighscoreManager : MonoBehaviour
             {
                 userText.text = "Unknown (" + score.userId + ")";  // Fallback in case the user isn't found
             }
+        }
+    }
+    public void ToggleGlobalHighscores()
+    {
+        if (highscorePanel == null)
+        {
+            Debug.LogError("Highscore panel is not assigned in the Inspector!");
+            return;
+        }
+
+        bool isActive = !highscorePanel.activeSelf;
+        highscorePanel.SetActive(isActive);
+
+        if (isActive)
+        {
+            FetchAndDisplayHighscores(); // Always fetch global scores when opening
         }
     }
 
