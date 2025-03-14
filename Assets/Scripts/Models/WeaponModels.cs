@@ -2,38 +2,40 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class  WeaponRequest
+public class WeaponRequest
 {
-    public string Name { get; set; }
-    public int Price { get; set; }
-    public float ReloadSpeed { get; set; }
-    public int MagSize { get; set; }
-    public int FireRate { get; set; }
-    public FireMode FireMode { get; set; }
-    public int WeaponTypeId { get; set; }
-
+    public string name;
+    public int price;
+    public float reloadSpeed;
+    public int magSize;
+    public int fireRate;
+    public FireMode fireMode;
+    public int weaponTypeId;
 }
+
 [System.Serializable]
 public class WeaponResponse
 {
-    public int WeaponId { get; set; }
-    public string Name { get; set; }
-    public int Price { get; set; }
-    public float ReloadSpeed { get; set; }
-    public int MagSize { get; set; }
-    public int FireRate { get; set; }
-    public FireMode FireMode { get; set; }
-    public Weapon_WeaponTypeResponse WeaponType { get; set; }
+    public int weaponId;
+    public string name;
+    public int price;
+    public float reloadSpeed;
+    public int magSize;
+    public int fireRate;
+    public FireMode fireMode;
+    public Weapon_WeaponTypeResponse weaponType;
 }
+
 [System.Serializable]
 public class Weapon_WeaponTypeResponse
 {
-    public int WeaponTypeId { get; set; }
-    public string Name { get; set; }
-    public EquipmentSlot EquipmentSlot { get; set; }
+    public int weaponTypeId;
+    public string name;
+    public EquipmentSlot equipmentSlot;
 }
+
 [System.Serializable]
 public class WeaponResponseList
 {
-    public List<WeaponResponse> Weapons;
+    public List<WeaponResponse> weapons;
 }

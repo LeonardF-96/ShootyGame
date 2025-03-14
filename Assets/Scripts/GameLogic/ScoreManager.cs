@@ -86,9 +86,60 @@ public class ScoreManager : MonoBehaviour
             else
             {
                 Debug.Log("API Response: " + request.downloadHandler.text);
-                string json = "{\"items\":" + request.downloadHandler.text + "}";
-                Wrapper<ScoreResponse> wrapper = JsonUtility.FromJson<Wrapper<ScoreResponse>>(json);
-                callback?.Invoke(wrapper.items);
+                try
+                {
+                    string json = "{\"items\":" + request.downloadHandler.text + "}";
+                    Debug.Log("Wrapped JSON: " + json);
+                    Wrapper<ScoreResponse> wrapper = JsonUtility.FromJson<Wrapper<ScoreResponse>>(json);
+                    callback?.Invoke(wrapper.items);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("JSON parse error: " + ex.Message);
+                    callback?.Invoke(null);
+                }
+            }
+        }
+    }
+
+    public void FetchUserScores(int userId)
+    {
+        StartCoroutine(GetUserScores(userId));
+    }
+
+    private IEnumerator GetUserScores(int userId)
+    {
+        string endpoint = $"User/{userId}/scores";
+        using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + endpoint))
+        {
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error fetching user scores: {request.error}");
+                yield break;
+            }
+
+            string json = request.downloadHandler.text;
+            Debug.Log($"User scores JSON received: {json}");
+
+            try
+            {
+                List<ScoreResponse> userScores = JsonUtility.FromJson<List<ScoreResponse>>(json);
+                Debug.Log($"Fetched {userScores.Count} user scores.");
+
+                // Handle the user scores as needed
+                // For example, you can pass them to a callback or store them in a list
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to parse user score data: {ex.Message}");
             }
         }
     }

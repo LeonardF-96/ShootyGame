@@ -215,11 +215,11 @@ public class GunController : MonoBehaviour
     }
     public void ApplyWeaponData(WeaponResponse weapon)
     {
-        weaponId = weapon.WeaponId;
-        weaponType = weapon.Name;
-        fireRate = weapon.FireRate > 0 ? weapon.FireRate : 1; // Prevent divide by zero
-        reloadSpeed = weapon.ReloadSpeed;
-        magSize = weapon.MagSize;
+        weaponId = weapon.weaponId;
+        weaponType = weapon.name;
+        fireRate = weapon.fireRate > 0 ? weapon.fireRate : 1; // Prevent divide by zero
+        reloadSpeed = weapon.reloadSpeed;
+        magSize = weapon.magSize;
 
         Debug.Log($"Applied weapon data: ID={weaponId}, Type={weaponType}, FireRate={fireRate}, ReloadSpeed={reloadSpeed}, MagSize={magSize}");
     }

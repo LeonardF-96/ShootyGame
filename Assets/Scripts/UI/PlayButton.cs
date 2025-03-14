@@ -62,32 +62,32 @@ public class PlayButton : MonoBehaviour
 
                     if (weaponText != null)
                     {
-                        weaponText.text = weapon.Name;
+                        weaponText.text = weapon.name;
                     }
 
                     // Assign the OnWeaponClicked listener
                     weaponButton.onClick.AddListener(() => OnWeaponClicked(weapon, weaponButton));
 
                     // Place weapon in the appropriate slot based on EquipmentSlot
-                    if (weapon.WeaponType.EquipmentSlot == EquipmentSlot.Secondary)
+                    if (weapon.weaponType.equipmentSlot == EquipmentSlot.Secondary)
                     {
                         entry.transform.SetParent(SecondaryChoiceContent, false);
                     }
-                    else if (weapon.WeaponType.EquipmentSlot == EquipmentSlot.Primary)
+                    else if (weapon.weaponType.equipmentSlot == EquipmentSlot.Primary)
                     {
                         entry.transform.SetParent(PrimaryChoiceContent, false);
                     }
 
                     // Highlight preselected weaponId 1 for secondary and weaponId 3 for primary
-                    if (weapon.WeaponId == 1)
+                    if (weapon.weaponId == 1)
                     {
-                        selectedSecondaryWeaponId = weapon.WeaponId;
+                        selectedSecondaryWeaponId = weapon.weaponId;
                         selectedSecondaryButton = weaponButton;
                         HighlightButton(weaponButton, true);
                     }
-                    else if (weapon.WeaponId == 3)
+                    else if (weapon.weaponId == 3)
                     {
-                        selectedPrimaryWeaponId = weapon.WeaponId;
+                        selectedPrimaryWeaponId = weapon.weaponId;
                         selectedPrimaryButton = weaponButton;
                         HighlightButton(weaponButton, true);
                     }
@@ -112,9 +112,9 @@ public class PlayButton : MonoBehaviour
             return;
         }
         // Assign the weapon selection
-        if (weapon.WeaponType.EquipmentSlot == EquipmentSlot.Secondary)
+        if (weapon.weaponType.equipmentSlot == EquipmentSlot.Secondary)
         {
-            selectedSecondaryWeaponId = weapon.WeaponId;
+            selectedSecondaryWeaponId = weapon.weaponId;
             Debug.Log($"Selected Secondary Weapon ID: {selectedSecondaryWeaponId}");
 
             // Highlight the selected button and reset the previous selection
@@ -125,9 +125,9 @@ public class PlayButton : MonoBehaviour
             selectedSecondaryButton = weaponButton;
             HighlightButton(weaponButton, true);
         }
-        else if (weapon.WeaponType.EquipmentSlot == EquipmentSlot.Primary)
+        else if (weapon.weaponType.equipmentSlot == EquipmentSlot.Primary)
         {
-            selectedPrimaryWeaponId = weapon.WeaponId;
+            selectedPrimaryWeaponId = weapon.weaponId;
             Debug.Log($"Selected Primary Weapon ID: {selectedPrimaryWeaponId}");
 
             // Highlight the selected button and reset the previous selection
@@ -157,22 +157,22 @@ public class PlayButton : MonoBehaviour
         WeaponResponse primaryWeapon = weaponManager.GetWeaponById(selectedPrimaryWeaponId);
         if (primaryWeapon != null)
         {
-            PlayerPrefs.SetInt("PrimaryWeapon_FireRate", primaryWeapon.FireRate);
-            PlayerPrefs.SetFloat("PrimaryWeapon_ReloadSpeed", primaryWeapon.ReloadSpeed);
-            PlayerPrefs.SetInt("PrimaryWeapon_MagSize", primaryWeapon.MagSize);
-            PlayerPrefs.SetString("PrimaryWeapon_WeaponType", primaryWeapon.WeaponType.Name);
-            PlayerPrefs.SetString("PrimaryWeapon_WeaponName", primaryWeapon.Name);
+            PlayerPrefs.SetInt("PrimaryWeapon_FireRate", primaryWeapon.fireRate);
+            PlayerPrefs.SetFloat("PrimaryWeapon_ReloadSpeed", primaryWeapon.reloadSpeed);
+            PlayerPrefs.SetInt("PrimaryWeapon_MagSize", primaryWeapon.magSize);
+            PlayerPrefs.SetString("PrimaryWeapon_WeaponType", primaryWeapon.weaponType.name);
+            PlayerPrefs.SetString("PrimaryWeapon_WeaponName", primaryWeapon.name);
         }
 
         // Save weapon stats for secondary weapon
         WeaponResponse secondaryWeapon = weaponManager.GetWeaponById(selectedSecondaryWeaponId);
         if (secondaryWeapon != null)
         {
-            PlayerPrefs.SetInt("SecondaryWeapon_FireRate", secondaryWeapon.FireRate);
-            PlayerPrefs.SetFloat("SecondaryWeapon_ReloadSpeed", secondaryWeapon.ReloadSpeed);
-            PlayerPrefs.SetInt("SecondaryWeapon_MagSize", secondaryWeapon.MagSize);
-            PlayerPrefs.SetString("SecondaryWeapon_WeaponType", secondaryWeapon.WeaponType.Name);
-            PlayerPrefs.SetString("SecondaryWeapon_WeaponName", secondaryWeapon.Name);
+            PlayerPrefs.SetInt("SecondaryWeapon_FireRate", secondaryWeapon.fireRate);
+            PlayerPrefs.SetFloat("SecondaryWeapon_ReloadSpeed", secondaryWeapon.reloadSpeed);
+            PlayerPrefs.SetInt("SecondaryWeapon_MagSize", secondaryWeapon.magSize);
+            PlayerPrefs.SetString("SecondaryWeapon_WeaponType", secondaryWeapon.weaponType.name);
+            PlayerPrefs.SetString("SecondaryWeapon_WeaponName", secondaryWeapon.name);
         }
 
         PlayerPrefs.Save();

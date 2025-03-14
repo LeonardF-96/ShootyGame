@@ -5,6 +5,7 @@ public class LogoutButton : MonoBehaviour
 {
     public void OnLogoutButtonClick()
     {
+        Debug.Log("Logout button clicked.");
         if (AuthenticationManager.instance != null)
         {
             PlayerPrefs.DeleteKey("authToken");

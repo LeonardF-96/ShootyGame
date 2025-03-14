@@ -5,11 +5,15 @@ using System.Text;
 using TMPro;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class AuthenticationManager : MonoBehaviour
 {
     private string baseUrl = "https://localhost:7154/api/";
     private MainMenuController mainMenuController;
+    private WeaponManager weaponManager;
+    private ScoreManager scoreManager;
 
     [Header("Login Fields")]
     [SerializeField] private TMP_InputField loginEmailInput;
@@ -95,6 +99,7 @@ public class AuthenticationManager : MonoBehaviour
     {
         string email = loginEmailInput.text;
         string password = loginPasswordInput.text;
+        Debug.Log("Email: " + email + " Password: " + password);
 
         if (!IsValidEmail(email))
         {
@@ -104,7 +109,7 @@ public class AuthenticationManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(AuthenticateUser(new UserRequest { Email = email, Password = password }));
+        StartCoroutine(AuthenticateUser(new UserRequest { email = email, password = password }));
         loginEmailInput.text = "";
         loginPasswordInput.text = "";
     }
@@ -125,7 +130,7 @@ public class AuthenticationManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(CreateUser(new UserRequest { Username = username, Email = email, Password = password, Role = role }));
+        StartCoroutine(CreateUser(new UserRequest { username = username, email = email, password = password, role = role }));
         signUpUsernameInput.text = "";
         signUpEmailInput.text = "";
         signUpPasswordInput.text = "";
@@ -143,29 +148,47 @@ public class AuthenticationManager : MonoBehaviour
 
     IEnumerator AuthenticateUser(UserRequest signInRequest)
     {
+        // Define the endpoint for user authentication
         string endpoint = "User/authenticate";
+
+        // Convert the sign-in request object to JSON format
         string jsonData = JsonUtility.ToJson(signInRequest);
         Debug.Log("AuthenticateUser Request Body: " + jsonData);
 
+        // Create a new UnityWebRequest for a POST request to the authentication endpoint
         using (UnityWebRequest request = new UnityWebRequest(baseUrl + endpoint, "POST"))
         {
+            // Set the request body with the JSON data
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+
+            // Set the download handler to handle the response
             request.downloadHandler = new DownloadHandlerBuffer();
+
+            // Set the request header to indicate the content type is JSON
             request.SetRequestHeader("Content-Type", "application/json");
 
+            // Send the request and wait for the response
             yield return request.SendWebRequest();
 
+            // Check if there was a connection error or protocol error
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
+                // Log the error message
                 Debug.LogError(request.error);
             }
             else
             {
-                Debug.Log(request.downloadHandler.text);
-                SignInResponse user = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
-                Debug.Log("Money from server: " + user.Money);
+                // Log the raw response from the server
+                Debug.Log("Raw response: " + request.downloadHandler.text);
 
+                // Deserialize the response JSON into a SignInResponse object
+                SignInResponse user = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
+
+                // Log the user's money
+                Debug.Log("Money from server: " + user.money);
+
+                // Call the OnUserAuthenticated method to handle the authenticated user
                 OnUserAuthenticated(user);
             }
         }
@@ -195,7 +218,7 @@ public class AuthenticationManager : MonoBehaviour
                 Debug.Log(request.downloadHandler.text);
                 SignInResponse user = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
 
-                string token = user.Token;
+                string token = user.token;
                 if (!string.IsNullOrEmpty(token))
                 {
                     PlayerPrefs.SetString("authToken", token);
@@ -210,7 +233,7 @@ public class AuthenticationManager : MonoBehaviour
 
     void OnUserAuthenticated(SignInResponse user)
     {
-        Debug.Log("User authenticated: " + user.UserName);
+        Debug.Log("User authenticated: " + user.userName);
 
         if (mainMenuController == null)
         {
@@ -222,17 +245,38 @@ public class AuthenticationManager : MonoBehaviour
             }
         }
 
-        mainMenuController.UpdateLoggedInText(user.UserName, user.Money);
+        mainMenuController.UpdateLoggedInText(user.userName, user.money);
 
         string userDataJson = JsonUtility.ToJson(user);
         PlayerPrefs.SetString("userData", userDataJson);
-        PlayerPrefs.SetString("authToken", user.Token);
-        PlayerPrefs.SetInt("userId", user.UserId);
+        PlayerPrefs.SetString("authToken", user.token);
+        PlayerPrefs.SetInt("userId", user.userId);
         PlayerPrefs.Save();
+
+        // Fetch user weapons and scores after authentication
+        if (weaponManager != null)
+        {
+            weaponManager.FetchUserWeapons(user.userId, (weapons) =>
+            {
+                Debug.Log("Fetched user weapons: " + weapons.Count);
+            });
+        }
+        else
+        {
+            Debug.LogError("WeaponManager not found in scene.");
+        }
+
+        if (scoreManager != null)
+        {
+            scoreManager.FetchUserScores(user.userId);
+        }
+        else
+        {
+            Debug.LogError("ScoreManager not found in scene.");
+        }
 
         mainMenuController.SetAuthDependentButtonsActive(true);
     }
-
     IEnumerator ValidateToken(string token)
     {
         int userId = PlayerPrefs.GetInt("userId", -1);

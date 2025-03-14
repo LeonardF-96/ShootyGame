@@ -9,6 +9,7 @@ public class HighscoreManager : MonoBehaviour
     public Transform highscoreContent;
     public GameObject highscoreEntryPrefab;
     public Transform HS_Scroll_View;
+    public GameObject highscorePanel;
     private ScoreManager scoreManager;
     private UserManager userManager;
     //A dictionary to store userId and their corresponding usernames
@@ -18,6 +19,17 @@ public class HighscoreManager : MonoBehaviour
     void Start()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
+        userManager = FindObjectOfType<UserManager>();
+
+        if (scoreManager == null)
+        {
+            Debug.LogError("ScoreManager not found in the scene!");
+        }
+
+        if (userManager == null)
+        {
+            Debug.LogError("UserManager not found in the scene!");
+        }
     }
 
     public void FetchAndDisplayHighscores()
@@ -25,7 +37,6 @@ public class HighscoreManager : MonoBehaviour
         if (scoreManager != null)
         {
            Debug.Log("Fetching users and highscores...");
-            //apiManager.FetchAllScores(DisplayHighscores);
             StartCoroutine(FetchUsersAndScores());
         }
         else
@@ -45,7 +56,7 @@ public class HighscoreManager : MonoBehaviour
                 userDictionary.Clear();
                 foreach (var user in users)
                 {
-                    userDictionary[user.UserId] = user.UserName; // Store userId -> username
+                    userDictionary[user.userId] = user.userName; // Store userId -> username
                 }
                 usersFetched = true;
             }
@@ -58,9 +69,6 @@ public class HighscoreManager : MonoBehaviour
 
         // Wait until users are fetched before proceeding
         yield return new WaitUntil(() => usersFetched);
-
-        // Now fetch and display scores
-        //apiManager.FetchAllScores(DisplayHighscores);
 
         // Now fetch and display scores
         scoreManager.FetchAllScores(scores =>
@@ -79,6 +87,7 @@ public class HighscoreManager : MonoBehaviour
     }
     private void DisplayHighscores(List<ScoreResponse> scores)
     {
+        highscorePanel.SetActive(true);
         if (scores == null)
         {
             Debug.LogError("Failed to fetch highscores.");

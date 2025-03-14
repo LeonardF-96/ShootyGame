@@ -14,6 +14,14 @@ public class MainMenuController : MonoBehaviour
     public Button highscoresButton;
     public Button playButton;
 
+    [Header("Auth Dependent Panels")]
+    public GameObject friendsPanel;
+    public GameObject storePanel;
+    public GameObject highscorePanel;
+    public GameObject profilePanel;
+    public GameObject adminPanel;
+    public GameObject wpnChoicePanel;
+
     void Start()
     {
         Debug.Log("MainMenuController Start called.");
@@ -50,7 +58,7 @@ public class MainMenuController : MonoBehaviour
                 Debug.LogError("Button " + button.name + " is not active in hierarchy.");
             }
         }
-
+        HidePanels();
         UpdateUI();
     }
 
@@ -58,6 +66,7 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("MainMenuController OnEnable called.");
         AssignUIElements();
+        HidePanels();
         UpdateUI();
     }
 
@@ -71,12 +80,26 @@ public class MainMenuController : MonoBehaviour
         highscoresButton = GameObject.Find("HighscoresButton")?.GetComponent<Button>();
         playButton = GameObject.Find("PlayButton")?.GetComponent<Button>();
 
+        storePanel = GameObject.Find("StorePanel");
+        highscorePanel = GameObject.Find("HighscorePanel");
+        wpnChoicePanel = GameObject.Find("WpnChoicePanel");
+
         if (loginStatusText == null) Debug.LogError("UsernameText not found!");
         if (moneyText == null) Debug.LogError("MoneyText not found!");
         if (friendsButton == null) Debug.LogError("FriendsButton not found!");
         if (storeButton == null) Debug.LogError("StoreButton not found!");
         if (highscoresButton == null) Debug.LogError("HighscoresButton not found!");
         if (playButton == null) Debug.LogError("PlayButton not found!");
+
+        if (storePanel == null) Debug.LogError("StorePanel not found!");
+        if (highscorePanel == null) Debug.LogError("HighscorePanel not found!");
+        if (wpnChoicePanel == null) Debug.LogError("WpnChoicePanel not found!");
+    }
+    void HidePanels()
+    {
+        if (storePanel != null) storePanel.SetActive(false);
+        if (highscorePanel != null) highscorePanel.SetActive(false);
+        if (wpnChoicePanel != null) wpnChoicePanel.SetActive(false);
     }
 
     public void UpdateUI()
@@ -92,7 +115,7 @@ public class MainMenuController : MonoBehaviour
             if (!string.IsNullOrEmpty(userDataJson))
             {
                 UserResponse user = JsonUtility.FromJson<UserResponse>(userDataJson);
-                UpdateLoggedInText(user.UserName, user.Money);
+                UpdateLoggedInText(user.userName, user.money);
                 SetAuthDependentButtonsActive(true);
             }
             else
@@ -141,7 +164,7 @@ public class MainMenuController : MonoBehaviour
 
     public void SetAuthDependentButtonsActive(bool isActive)
     {
-        Debug.Log("SetAuthDependentButtonsAndTextActive called with isActive: " + isActive);
+        Debug.Log("SetAuthDependentButtonsActive called with isActive: " + isActive);
 
         if (friendsButton != null) friendsButton.gameObject.SetActive(isActive);
         if (storeButton != null) storeButton.gameObject.SetActive(isActive);
