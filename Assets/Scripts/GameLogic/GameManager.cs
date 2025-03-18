@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Calculate the bonus based on how close the player is to the fastest time
-        float timeBonusFactor = Mathf.Clamp01((fastestTime / Mathf.Max(elapsedTime, 1f))); // Avoid division by zero
+        float timeBonusFactor = (maxTime - elapsedTime) / (maxTime - fastestTime);
         int timeBonus = Mathf.RoundToInt(maxBonusPoints * timeBonusFactor);
         return timeBonus;
     }
@@ -274,7 +274,8 @@ public class GameManager : MonoBehaviour
             userId = userId,
             scoreValue = score,
             roundTime = roundedElapsedTime,
-            averageAccuracy = roundedAccuracy
+            averageAccuracy = roundedAccuracy,
+            moneyEarned = MoneyEarned
         };
         Debug.Log($"Score request: {scoreRequest}");
         Debug.Log("Sending score to API...");

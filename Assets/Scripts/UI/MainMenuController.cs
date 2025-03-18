@@ -135,7 +135,7 @@ public class MainMenuController : MonoBehaviour
 
     public void UpdateLoggedInText(string username, int userMoney)
     {
-        Debug.Log("UpdateLoggedInText called with username: " + username);
+        Debug.Log("UpdateLoggedInText called with username: " + username + " Money: " + userMoney);
 
         if (loginStatusText != null)
         {

@@ -247,6 +247,7 @@ public class AuthenticationManager : MonoBehaviour
             }
         }
 
+        Debug.Log("UpdateLoggedInText called with user: " + user.userName + " And money: " + user.money);
         mainMenuController.UpdateLoggedInText(user.userName, user.money);
 
         string userDataJson = JsonUtility.ToJson(user);
@@ -313,15 +314,22 @@ public class AuthenticationManager : MonoBehaviour
             else
             {
                 Debug.Log($"Response: {request.downloadHandler.text}");
+                // Deserialize the response data
+                //SignInResponse user = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
                 string userDataJson = PlayerPrefs.GetString("userData");
                 if (!string.IsNullOrEmpty(userDataJson))
                 {
                     SignInResponse user = JsonUtility.FromJson<SignInResponse>(userDataJson);
+                    // Store updated user data in PlayerPrefs
+                    PlayerPrefs.SetString("userData", request.downloadHandler.text);
+                    PlayerPrefs.Save();
+
+                    // Authenticate the user with fresh data
                     OnUserAuthenticated(user);
                 }
                 else
                 {
-                    Debug.LogError("No user data found in PlayerPrefs.");
+                    Debug.LogError("Failed to parse user data from server response.");
                 }
             }
         }

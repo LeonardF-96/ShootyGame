@@ -27,12 +27,13 @@ public class StoreManager : MonoBehaviour
     [SerializeField] public Button buyButton;
     [SerializeField] public Button backButton;
 
-    private WeaponResponse selectedWeapon;
+    private static WeaponResponse selectedWeapon;
     public static List<WeaponResponse> userWeapons = new List<WeaponResponse>();
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("StoreManager Start called. Instance ID: " + GetInstanceID());
         weaponManager = FindObjectOfType<WeaponManager>();
 
         if (weaponManager == null)
@@ -63,6 +64,9 @@ public class StoreManager : MonoBehaviour
         {
             Debug.LogError("BackButton is not assigned in the Inspector!");
         }
+
+        Debug.Log("Current userData: " + PlayerPrefs.GetString("userData"));
+
         buyButton.onClick.AddListener(OnBuyButtonClicked);
         backButton.onClick.AddListener(OnBackButtonClicked);
 
@@ -129,6 +133,7 @@ public class StoreManager : MonoBehaviour
                     weaponTypeId = userWeapon.weaponType.weaponTypeId,
                     name = userWeapon.weaponType.name,
                     equipmentSlot = userWeapon.weaponType.equipmentSlot // Parse equipmentSlot
+                    //equipmentSlot = WeaponManager.ParseEquipmentSlot(userWeapon.weaponType.equipmentSlot) // Use class name for static method
                 }
             };
             weaponResponses.Add(weaponResponse);
@@ -168,9 +173,6 @@ public class StoreManager : MonoBehaviour
                 {
                     Destroy(child.gameObject);
                 }
-                // Ensure userWeapons is initialized
-                //userWeapons ??= new List<WeaponResponse>();
-
                 // Instantiate weapon entries
                 foreach (var weapon in weapons)
                 {
@@ -185,13 +187,10 @@ public class StoreManager : MonoBehaviour
                     }
                     wpnNameText.text = weapon.name;
 
-                    // Check if user owns this weapon
-                    bool ownsWeapon = userWeapons.Exists(userWeapon => userWeapon.weaponId == weapon.weaponId);
-                    button.interactable = !ownsWeapon;
-
                     button.onClick.AddListener(() =>
                     {
                         selectedWeapon = weapon;
+                        Debug.Log("Selected weapon set: " + selectedWeapon.name);
                         weaponNameText.text = weapon.name;
                         weaponTypeText.text = "Type: " + weapon.weaponType.name;
                         weaponPriceText.text = "Price: " + weapon.price.ToString();
@@ -225,11 +224,35 @@ public class StoreManager : MonoBehaviour
     }
     private void OnBuyButtonClicked()
     {
+        Debug.Log("StoreManager Instance ID: " + GetInstanceID());
+        Debug.Log("Buy button clicked. SelectedWeapon: " + (selectedWeapon != null ? selectedWeapon.name : "null"));
         if (selectedWeapon != null)
         {
+            int userId = PlayerPrefs.GetInt("userId");
             Debug.Log("Buying weapon: " + selectedWeapon.name);
-            // Implement the buy functionality here
-            // For example, send a request to the server to purchase the weapon
+            weaponManager.BuyUserWeapon(userId, selectedWeapon.weaponId, success =>
+            {
+                if (success)
+                {
+                    Debug.Log("Weapon purchase successful.");
+                    StartCoroutine(FindObjectOfType<UserManager>().FetchAndUpdateUserData(updated =>
+                    {
+                        if (updated)
+                        {
+                            FindObjectOfType<MainMenuController>().UpdateUI();
+                            FetchUserWeapons(() =>
+                            {
+                                CheckBuyButton(selectedWeapon);
+                                Debug.Log("Current userData: " + PlayerPrefs.GetString("userData"));
+                            });
+                        }
+                    }));  // Fetch fresh user data
+                }
+                else
+                {
+                    Debug.LogWarning("Weapon purchase failed.");
+                }
+            });
         }
         else
         {
@@ -239,32 +262,9 @@ public class StoreManager : MonoBehaviour
     private void CheckBuyButton(WeaponResponse weapon)
     {
         Debug.Log($"Checking ownership for weapon '{weapon.name}' (ID: {weapon.weaponId})");
-        Debug.Log($"Total user weapons: {userWeapons.Count}");
 
-        if (userWeapons.Count == 0)
-        {
-            Debug.LogWarning("userWeapons list is empty.");
-        }
-
-        foreach (var userWeapon in userWeapons)
-        {
-            Debug.Log($"User owns weapon '{userWeapon.name}' (ID: {userWeapon.weaponId})");
-        }
-
-        bool ownsWeapon = false;
-
-        foreach (var userWeapon in userWeapons)
-        {
-            Debug.Log($"Comparing weapon '{weapon.name}' (ID: {weapon.weaponId}, Type: {weapon.weaponId.GetType()}) " +
-                      $"with user weapon '{userWeapon.name}' (ID: {userWeapon.weaponId}, Type: {userWeapon.weaponId.GetType()})");
-
-            if (userWeapon.weaponId == weapon.weaponId)
-            {
-                ownsWeapon = true;
-                Debug.Log($"Match found: {weapon.name} is owned.");
-                break; // No need to check further once we find a match
-            }
-        }
+        bool ownsWeapon = userWeapons.Exists(userWeapon => userWeapon.weaponId == weapon.weaponId);
+        buyButton.interactable = !ownsWeapon;
 
         Debug.Log($"Final ownership status for '{weapon.name}': {ownsWeapon}");
         buyButton.interactable = !ownsWeapon;

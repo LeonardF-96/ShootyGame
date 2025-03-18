@@ -106,7 +106,58 @@ public class WeaponManager : MonoBehaviour
     {
         StartCoroutine(GetUserWeapons(userId, callback));
     }
+    public void BuyUserWeapon(int userId, int weaponId, Action<bool> callback)
+    {
+        StartCoroutine(PostBuyUserWeapon(userId, weaponId, callback));
+    }
+    private IEnumerator PostBuyUserWeapon(int userId, int weaponId, Action<bool> callback)
+    {
+        string endpoint = "User/weapons";
+        string url = $"{baseUrl}{endpoint}";
 
+        // Create a new UnityWebRequest for a POST request
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            // Create the JSON payload
+            var payload = new
+            {
+                userId = userId,
+                weaponId = weaponId
+            };
+            string jsonPayload = JsonConvert.SerializeObject(payload);
+
+            // Set the request body
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonPayload);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            // Retrieve the authentication token from PlayerPrefs
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                // Set the Authorization header with the token
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            // Send the request and wait for the response
+            yield return request.SendWebRequest();
+
+            // Check if the request was successful
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                // Log the error message and invoke the callback with false
+                Debug.LogError($"Error buying weapon: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                // Log success and invoke the callback with true
+                Debug.Log("Weapon bought successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
     private IEnumerator GetUserWeapons(int userId, Action<List<User_WeaponResponse>> callback)
     {
         // Define the endpoint for fetching user-specific weapons
@@ -142,7 +193,8 @@ public class WeaponManager : MonoBehaviour
             try
             {
                 // Parse the JSON response into the UserResponse class
-                UserResponse userResponse = JsonUtility.FromJson<UserResponse>(json);
+                UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(json);
+                //UserResponse userResponse = JsonUtility.FromJson<UserResponse>(json);
                 List<User_WeaponResponse> userWeapons = userResponse.weapons;
                 callback?.Invoke(userWeapons);
             }
