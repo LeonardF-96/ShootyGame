@@ -18,6 +18,14 @@ public class ScoreResponse
     public int scoreValue;
     public float roundTime;
     public float averageAccuracy;
+    public UserSummary user;
+}
+[System.Serializable]
+public class UserSummary
+{
+    public int userId;
+    public string userName;
+    public string playerTag;
 }
 
 [System.Serializable]

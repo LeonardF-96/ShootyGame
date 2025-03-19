@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using TMPro;
 using UnityEngine.UI;
 
@@ -12,21 +11,17 @@ public class HighscoreManager : MonoBehaviour
     public Transform HS_Scroll_View;
     public GameObject highscorePanel;
     private ScoreManager scoreManager;
-    private UserManager userManager;
 
     [Header("Buttons")]
     public Button global_HS_Button;
     public Button friends_HS_Button;
 
     private string currentState = "Global";
-    //A dictionary to store userId and their corresponding usernames
-    private Dictionary<int, string> userDictionary = new Dictionary<int, string>();
 
     // Start is called before the first frame update
     void Start()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
-        userManager = FindObjectOfType<UserManager>();
 
         if (scoreManager == null)
         {
@@ -35,15 +30,6 @@ public class HighscoreManager : MonoBehaviour
         else
         {
             Debug.Log("ScoreManager found and initialized.");
-        }
-
-        if (userManager == null)
-        {
-            Debug.LogError("UserManager not found in the scene!");
-        }
-        else
-        {
-            Debug.Log("UserManager found and initialized.");
         }
     }
 
@@ -62,51 +48,17 @@ public class HighscoreManager : MonoBehaviour
 
         if (scoreManager != null)
         {
-            Debug.Log("Fetching users and highscores from " + currentState);
-            StartCoroutine(FetchUsersAndScores());
+            Debug.Log("Fetching highscores from " + currentState);
+            StartCoroutine(FetchScores());
         }
         else
         {
             Debug.LogError("scoreManager not found in the scene!");
         }
     }
-    private IEnumerator FetchUsersAndScores()
+
+    private IEnumerator FetchScores()
     {
-        if (userManager == null)
-        {
-            Debug.LogWarning("userManager was null — trying to re-fetch.");
-            userManager = FindObjectOfType<UserManager>();
-
-            if (userManager == null)
-            {
-                Debug.LogError("userManager still not found! Aborting.");
-                yield break; // Stop coroutine if still null
-            }
-        }
-        bool usersFetched = false;
-
-        // Fetch all users first
-        userManager.FetchAllUsers(users =>
-        {
-            if (users != null)
-            {
-                userDictionary.Clear();
-                foreach (var user in users)
-                {
-                    userDictionary[user.userId] = user.userName; // Store userId -> username
-                }
-                usersFetched = true;
-            }
-            else
-            {
-                Debug.LogError("Failed to fetch users. Falling back to User ID.");
-                usersFetched = true; // Proceed even if user fetching fails
-            }
-        });
-
-        // Wait until users are fetched before proceeding
-        yield return new WaitUntil(() => usersFetched);
-
         // Double-check scoreManager again
         if (scoreManager == null)
         {
@@ -131,9 +83,7 @@ public class HighscoreManager : MonoBehaviour
 
             foreach (var score in scores)
             {
-                string displayName = userDictionary.ContainsKey(score.userId)
-                    ? userDictionary[score.userId]
-                    : $"User {score.userId}";
+                string displayName = score.user.userName;
 
                 Debug.Log($"Score: {score.scoreValue}, User: {displayName}");
             }
@@ -141,6 +91,7 @@ public class HighscoreManager : MonoBehaviour
             DisplayHighscores(scores);
         });
     }
+
     private void DisplayHighscores(List<ScoreResponse> scores)
     {
         highscorePanel.SetActive(!highscorePanel.activeSelf);
@@ -184,17 +135,10 @@ public class HighscoreManager : MonoBehaviour
             scoreText.text = score.scoreValue.ToString(); // Convert int to string
             timeText.text = score.roundTime.ToString(); // Convert float to string
             accuracyText.text = score.averageAccuracy.ToString() + "%"; // Convert float to string
-            // Look up the username from userDictionary using userId
-            if (userDictionary.TryGetValue(score.userId, out string username))
-            {
-                userText.text = username;  // Set the username instead of userId
-            }
-            else
-            {
-                userText.text = "Unknown (" + score.userId + ")";  // Fallback in case the user isn't found
-            }
+            userText.text = score.user.playerTag;  // Set the username directly from the score response
         }
     }
+
     public void ToggleGlobalHighscores()
     {
         if (highscorePanel == null)
@@ -215,6 +159,6 @@ public class HighscoreManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

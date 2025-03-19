@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
 
         CalculateAccuracy();
 
-        CalculateMoneyEarned(elapsedTime, timeBonus);
+        CalculateMoneyEarned(timeBonus);
     }
 
     // Calculate a bonus score based on the elapsed time
@@ -144,12 +144,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CalculateMoneyEarned(float elapsedTime, int timeBonus)
+    private void CalculateMoneyEarned(int timeBonus)
     {
-        float accuracyBonus = Mathf.Clamp(averageAccuracy / 100f, 0f, 1f); // Assume accuracy is a percentage
+        // Reduce the weight of the accuracy bonus
+        float accuracyWeight = 0.3f; // Adjust this value as needed
+        float timeBonusWeight = 0.7f; // Adjust this value as needed
 
-        // Calculate money earned based on accuracy and time bonus
-        int moneyEarned = Mathf.RoundToInt((accuracyBonus + timeBonus / (float)maxBonusPoints) * 100);
+        float accuracyBonus = Mathf.Clamp((averageAccuracy / 100f) * accuracyWeight, 0f, 1f); // Assume accuracy is a percentage
+        float timeBonusNormalized = (timeBonus / (float)maxBonusPoints) * timeBonusWeight;
+
+        // Calculate money earned based on weighted accuracy and time bonus
+        int moneyEarned = Mathf.RoundToInt((accuracyBonus + timeBonusNormalized) * 100);
         MoneyEarned = Mathf.Clamp(moneyEarned, 0, 100); // Ensure money does not exceed 100
         Debug.Log("Money Earned: " + MoneyEarned);
     }

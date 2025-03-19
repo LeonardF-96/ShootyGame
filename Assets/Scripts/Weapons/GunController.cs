@@ -11,7 +11,6 @@ public class GunController : MonoBehaviour
     public Camera fpsCam;
     public VisualEffect muzzleFlash;
     public GameObject impactEffect;
-    private Animator animator;
 
     //public float fireRate = 10f; // Rate of fire
     public float recoilDistance = 0.1f; // The maximum distance the gun can be pushed back
@@ -34,12 +33,6 @@ public class GunController : MonoBehaviour
         Debug.Log($"GunController initialized - weaponId: {weaponId}, FireRate: {fireRate}, ReloadSpeed: {reloadSpeed}, MagSize: {magSize}");
         originalPosition = transform.localPosition;
         currentAmmo = magSize;
-        animator = GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.applyRootMotion = false;
-            animator.enabled = false;
-        }
     }
     void OnEnable()
     {
@@ -88,13 +81,6 @@ public class GunController : MonoBehaviour
         currentAmmo--;
         Debug.Log($"Shooting... Current ammo: {currentAmmo}");
 
-        //// Temporarily disable animator during recoil
-        //if (animator != null)
-        //{
-        //    animator.enabled = false; // Disable animator
-        //}
-
-        // Play muzzle flash effect
         if (muzzleFlash != null)
         {
             muzzleFlash.Play();
@@ -152,11 +138,6 @@ public class GunController : MonoBehaviour
             Debug.Log("No hit detected. Deducting 1 point.");
             GameManager.instance.DeductScore(1);
         }
-        //// Re-enable animator after recoil (next frame or after some delay)
-        //if (animator != null)
-        //{
-        //    animator.enabled = true; // Re-enable animator
-        //}
     }
 
     IEnumerator Reload()

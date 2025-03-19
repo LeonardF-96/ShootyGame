@@ -125,10 +125,14 @@ public class ProfileManager : MonoBehaviour
                 foreach (var score in userResponse.scores)
                 {
                     GameObject entry = Instantiate(scoreEntryPrefab, scoreContent);
+                    TMP_Text rankText = entry.transform.Find("RankText").GetComponent<TMP_Text>();
                     TMP_Text scoreText = entry.transform.Find("ScoreText").GetComponent<TMP_Text>();
                     TMP_Text accuracyText = entry.transform.Find("AccuText").GetComponent<TMP_Text>();
                     TMP_Text timeText = entry.transform.Find("TimeText").GetComponent<TMP_Text>();
-
+                    if (rankText != null)
+                    {
+                        rankText.text = (userResponse.scores.IndexOf(score) + 1).ToString();
+                    }
                     if (scoreText != null)
                     {
                         scoreText.text = score.scoreValue.ToString();
