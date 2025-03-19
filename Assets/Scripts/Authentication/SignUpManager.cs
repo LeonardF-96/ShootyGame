@@ -10,7 +10,7 @@ public class SignUpManager : MonoBehaviour
     public TMP_InputField emailInput;
     public TMP_InputField passwordInput;
     public Button ConfirmSignUpButton;
-    public string signUpUrl = "https://localhost:7098/User/authenticate"; // Replace with your actual API endpoint
+    public string signUpUrl = "https://localhost:7154/User/authenticate";
 
     void Start()
     {

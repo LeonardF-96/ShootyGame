@@ -144,7 +144,6 @@ public class PlayButton : MonoBehaviour
     {
         // Save primary and secondary weapon choices to PlayerPrefs
         PlayerPrefs.SetInt("PrimaryWeaponId", selectedPrimaryWeaponId);
-        PlayerPrefs.SetInt("SecondaryWeaponId", selectedSecondaryWeaponId);
 
         // Save weapon stats for primary weapon
         WeaponResponse primaryWeapon = weaponManager.GetWeaponById(selectedPrimaryWeaponId);
@@ -155,7 +154,10 @@ public class PlayButton : MonoBehaviour
             PlayerPrefs.SetInt("PrimaryWeapon_MagSize", primaryWeapon.magSize);
             PlayerPrefs.SetString("PrimaryWeapon_WeaponType", primaryWeapon.weaponType.name);
             PlayerPrefs.SetString("PrimaryWeapon_WeaponName", primaryWeapon.name);
+            PlayerPrefs.SetString("PrimaryWeapon_FireMode", primaryWeapon.fireMode.ToString());
         }
+
+        PlayerPrefs.SetInt("SecondaryWeaponId", selectedSecondaryWeaponId);
 
         // Save weapon stats for secondary weapon
         WeaponResponse secondaryWeapon = weaponManager.GetWeaponById(selectedSecondaryWeaponId);
@@ -166,6 +168,7 @@ public class PlayButton : MonoBehaviour
             PlayerPrefs.SetInt("SecondaryWeapon_MagSize", secondaryWeapon.magSize);
             PlayerPrefs.SetString("SecondaryWeapon_WeaponType", secondaryWeapon.weaponType.name);
             PlayerPrefs.SetString("SecondaryWeapon_WeaponName", secondaryWeapon.name);
+            PlayerPrefs.SetString("SecondaryWeapon_FireMode", secondaryWeapon.fireMode.ToString());
         }
 
         PlayerPrefs.Save();

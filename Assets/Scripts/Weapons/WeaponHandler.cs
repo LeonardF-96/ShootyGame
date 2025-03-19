@@ -56,6 +56,7 @@ public class WeaponHandler : MonoBehaviour
         gun.magSize = PlayerPrefs.GetInt($"{weaponPrefix}_MagSize", gun.magSize);
         gun.weaponType = PlayerPrefs.GetString($"{weaponPrefix}_WeaponType", gun.weaponType);
         gun.weaponId = PlayerPrefs.GetInt($"{weaponPrefix}Id", gun.weaponId);
+        gun.fireMode = PlayerPrefs.GetString($"{weaponPrefix}_FireMode", gun.fireMode.ToString()) == FireMode.Auto.ToString() ? FireMode.Auto : FireMode.Single;
 
         // Set the current ammo to the saved value or the mag size if not saved
         gun.currentAmmo = PlayerPrefs.GetInt($"{weaponPrefix}_CurrentAmmo", gun.magSize);

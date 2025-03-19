@@ -70,9 +70,9 @@ public class StoreManager : MonoBehaviour
         buyButton.onClick.AddListener(OnBuyButtonClicked);
         backButton.onClick.AddListener(OnBackButtonClicked);
 
-        StartCoroutine(InitializeStore());
+        //StartCoroutine(InitializeStore());
     }
-    private IEnumerator InitializeStore()
+    public IEnumerator InitializeStore()
     {
         bool userWeaponsFetched = false;
 

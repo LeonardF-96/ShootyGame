@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json;
 
 public class UserManager : MonoBehaviour
 {
@@ -48,8 +49,16 @@ public class UserManager : MonoBehaviour
 
     public IEnumerator GetUserById(int userId, Action<UserResponse> callback)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}/User/{userId}"))
+        Debug.Log($"Fetching user with id: {userId}, auth token: " + PlayerPrefs.GetString("authToken"));
+        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}User/{userId}"))
         {
+            string token = PlayerPrefs.GetString("authToken");
+            Debug.Log("Using token: " + token); // Add debug log for token
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
@@ -60,8 +69,62 @@ public class UserManager : MonoBehaviour
             else
             {
                 Debug.Log(request.downloadHandler.text);
-                UserResponse user = JsonUtility.FromJson<UserResponse>(request.downloadHandler.text);
+                UserResponse user = JsonConvert.DeserializeObject<UserResponse>(request.downloadHandler.text);
                 callback?.Invoke(user);
+            }
+        }
+    }
+    public IEnumerator UpdateUserById(int userId, UserRequest user, Action<bool> callback)
+    {
+        string json = JsonConvert.SerializeObject(user);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        using (UnityWebRequest request = new UnityWebRequest($"{baseUrl}User/{userId}", "PUT"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error updating user profile: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("User profile updated successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
+    public IEnumerator DeleteUserById(int userId, Action<bool> callback)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Delete($"{baseUrl}User/{userId}"))
+        {
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error deleting user: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("User deleted successfully.");
+                callback?.Invoke(true);
             }
         }
     }
@@ -80,6 +143,7 @@ public class UserManager : MonoBehaviour
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
             string token = PlayerPrefs.GetString("authToken", null);
+            Debug.Log("Using token: " + token); // Add debug log for token
             if (!string.IsNullOrEmpty(token))
             {
                 request.SetRequestHeader("Authorization", "Bearer " + token);

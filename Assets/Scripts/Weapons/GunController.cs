@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 using Unity.VisualScripting;
+using System;
 
 public class GunController : MonoBehaviour
 {
@@ -68,7 +69,6 @@ public class GunController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(Reload());
-
         }
 
         // Gradually move the gun back to its original position

@@ -8,10 +8,16 @@ public class LogoutButton : MonoBehaviour
         Debug.Log("Logout button clicked.");
         if (AuthenticationManager.instance != null)
         {
+            //PlayerPrefs.DeleteKey("authToken");
+            //PlayerPrefs.DeleteKey("userId");
+            //PlayerPrefs.SetString("userData", ""); // Ensure userData is blank
+            //PlayerPrefs.Save(); // Force save to make sure changes persist
+
             PlayerPrefs.DeleteKey("authToken");
+            PlayerPrefs.DeleteKey("userData");
             PlayerPrefs.DeleteKey("userId");
-            PlayerPrefs.SetString("userData", ""); // Ensure userData is blank
-            PlayerPrefs.Save(); // Force save to make sure changes persist
+            Debug.Log("authToken: " + PlayerPrefs.GetString("authToken") + " userData: " + PlayerPrefs.GetString("userData") + " userId: " + PlayerPrefs.GetInt("userId"));
+            PlayerPrefs.Save();
 
             Debug.Log("Logged out successfully.");
 

@@ -14,6 +14,7 @@ public class AuthenticationManager : MonoBehaviour
     private MainMenuController mainMenuController;
     private WeaponManager weaponManager;
     private ScoreManager scoreManager;
+    private StoreManager storeManager;
 
     [Header("Login Fields")]
     [SerializeField] private TMP_InputField loginEmailInput;
@@ -53,6 +54,7 @@ public class AuthenticationManager : MonoBehaviour
         mainMenuController = FindObjectOfType<MainMenuController>();
         weaponManager = FindObjectOfType<WeaponManager>();
         scoreManager = FindObjectOfType<ScoreManager>();
+        storeManager = FindObjectOfType<StoreManager>();
 
         loginButton.onClick.AddListener(OnLoginButtonClicked);
         signUpButton.onClick.AddListener(OnSignUpButtonClicked);
@@ -74,18 +76,19 @@ public class AuthenticationManager : MonoBehaviour
         loginPanel.SetActive(false);
     }
 
-    public void Logout()
-    {
-        PlayerPrefs.DeleteKey("authToken");
-        PlayerPrefs.DeleteKey("userData");
-        PlayerPrefs.DeleteKey("userId");
-        PlayerPrefs.Save();
+    //public void Logout()
+    //{
+    //    PlayerPrefs.DeleteKey("authToken");
+    //    PlayerPrefs.DeleteKey("userData");
+    //    PlayerPrefs.DeleteKey("userId");
+    //    Debug.Log("authToken: " + PlayerPrefs.GetString("authToken") + " userData: " + PlayerPrefs.GetString("userData") + " userId: " + PlayerPrefs.GetInt("userId"));
+    //    PlayerPrefs.Save();
 
-        ResetAuthenticationManager();
+    //    ResetAuthenticationManager();
 
-        mainMenuController.UpdateLoggedInText("Logged out", 0);
-        mainMenuController.SetAuthDependentButtonsActive(false);
-    }
+    //    mainMenuController.UpdateLoggedInText("Logged out", 0);
+    //    mainMenuController.SetAuthDependentButtonsActive(false);
+    //}
 
     void ResetAuthenticationManager()
     {
@@ -277,9 +280,18 @@ public class AuthenticationManager : MonoBehaviour
         {
             Debug.LogError("ScoreManager not found in scene.");
         }
+        if (storeManager != null)
+        {
+            StartCoroutine(storeManager.InitializeStore());
+        }
+        else
+        {
+            Debug.LogError("StoreManager not found in scene.");
+        }
 
         mainMenuController.SetAuthDependentButtonsActive(true);
     }
+
     IEnumerator ValidateToken(string token)
     {
         int userId = PlayerPrefs.GetInt("userId", -1);
@@ -315,7 +327,6 @@ public class AuthenticationManager : MonoBehaviour
             {
                 Debug.Log($"Response: {request.downloadHandler.text}");
                 // Deserialize the response data
-                //SignInResponse user = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
                 string userDataJson = PlayerPrefs.GetString("userData");
                 if (!string.IsNullOrEmpty(userDataJson))
                 {
