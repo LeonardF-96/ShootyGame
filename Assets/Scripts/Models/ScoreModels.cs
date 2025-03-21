@@ -27,6 +27,13 @@ public class UserSummary
     public string userName;
     public string playerTag;
 }
+public class ScoreSummary
+{
+    public int scoreValue;
+    public float roundTime;
+    public float averageAccuracy;
+    public int moneyEarned;
+}
 
 [System.Serializable]
 public class ScoreResponseList
