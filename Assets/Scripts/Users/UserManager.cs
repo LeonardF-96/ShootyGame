@@ -34,10 +34,18 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                Debug.Log(request.downloadHandler.text);
-                string json = "{\"items\":" + request.downloadHandler.text + "}";
-                Wrapper<UserResponse> wrapper = JsonUtility.FromJson<Wrapper<UserResponse>>(json);
-                callback?.Invoke(wrapper.items);
+                string responseText = request.downloadHandler.text;
+                Debug.Log("API Response: " + responseText);
+                try
+                {
+                    List<UserResponse> users = JsonConvert.DeserializeObject<List<UserResponse>>(responseText);
+                    callback?.Invoke(users);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"JSON parse error: {e.Message}");
+                    callback?.Invoke(null);
+                }
             }
         }
     }

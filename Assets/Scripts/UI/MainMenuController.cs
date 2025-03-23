@@ -13,6 +13,7 @@ public class MainMenuController : MonoBehaviour
     public Button storeButton;
     public Button highscoresButton;
     public Button playButton;
+    public Button adminButton; // Add a reference to the admin button
 
     [Header("Auth Dependent Panels")]
     public GameObject friendsPanel;
@@ -79,6 +80,7 @@ public class MainMenuController : MonoBehaviour
         storeButton = GameObject.Find("StoreButton")?.GetComponent<Button>();
         highscoresButton = GameObject.Find("HighscoresButton")?.GetComponent<Button>();
         playButton = GameObject.Find("PlayButton")?.GetComponent<Button>();
+        adminButton = GameObject.Find("AdminButton")?.GetComponent<Button>(); // Assign the admin button
 
         storePanel = GameObject.Find("StorePanel");
         highscorePanel = GameObject.Find("HighscorePanel");
@@ -90,11 +92,13 @@ public class MainMenuController : MonoBehaviour
         if (storeButton == null) Debug.LogError("StoreButton not found!");
         if (highscoresButton == null) Debug.LogError("HighscoresButton not found!");
         if (playButton == null) Debug.LogError("PlayButton not found!");
+        if (adminButton == null) Debug.LogError("AdminButton not found!"); // Check if the admin button is found
 
         if (storePanel == null) Debug.LogError("StorePanel not found!");
         if (highscorePanel == null) Debug.LogError("HighscorePanel not found!");
         if (wpnChoicePanel == null) Debug.LogError("WpnChoicePanel not found!");
     }
+
     void HidePanels()
     {
         if (storePanel != null) storePanel.SetActive(false);
@@ -117,12 +121,14 @@ public class MainMenuController : MonoBehaviour
                 UserResponse user = JsonUtility.FromJson<UserResponse>(userDataJson);
                 UpdateLoggedInText(user.userName, user.money);
                 SetAuthDependentButtonsActive(true);
+                SetAdminButtonActive(user.role == "Admin"); // Show admin button if user role is 1
             }
             else
             {
                 Debug.LogWarning("No user data found in PlayerPrefs.");
                 UpdateLoggedInText("Logged out", 0);
                 SetAuthDependentButtonsActive(false);
+                SetAdminButtonActive(false); // Hide admin button
             }
         }
         else
@@ -130,6 +136,7 @@ public class MainMenuController : MonoBehaviour
             Debug.LogWarning("No token found in PlayerPrefs.");
             UpdateLoggedInText("Logged out", 0);
             SetAuthDependentButtonsActive(false);
+            SetAdminButtonActive(false); // Hide admin button
         }
     }
 
@@ -150,8 +157,6 @@ public class MainMenuController : MonoBehaviour
             {
                 loginStatusText.text = $"Logged in as: {username}";
                 Debug.Log($"loginStatusText updated to 'Logged in as: {username}'");
-                // Update moneyText with the user's money
-                //int userMoney = ApiManager.instance.GetUserMoney();
                 moneyText.text = "Money: " + userMoney;
                 Debug.Log("moneyText updated with user's money.");
             }
@@ -170,5 +175,12 @@ public class MainMenuController : MonoBehaviour
         if (storeButton != null) storeButton.gameObject.SetActive(isActive);
         if (highscoresButton != null) highscoresButton.gameObject.SetActive(isActive);
         if (playButton != null) playButton.gameObject.SetActive(isActive);
+    }
+
+    public void SetAdminButtonActive(bool isActive)
+    {
+        Debug.Log("SetAdminButtonActive called with isActive: " + isActive);
+
+        if (adminButton != null) adminButton.gameObject.SetActive(isActive);
     }
 }

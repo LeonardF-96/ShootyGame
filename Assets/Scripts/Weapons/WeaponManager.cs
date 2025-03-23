@@ -220,4 +220,57 @@ public class WeaponManager : MonoBehaviour
         }
         return weapon;
     }
+    //WeaponType///////////////////////////////////
+    public void FetchAllWeaponTypes(Action<List<Weapon_WeaponTypeResponse>> callback)
+    {
+        StartCoroutine(GetAllWeaponTypes(callback));
+        Debug.Log("Fetching all weapon types...");
+    }
+    private IEnumerator GetAllWeaponTypes(Action<List<Weapon_WeaponTypeResponse>> callback)
+    {
+        Debug.Log("GetAllWeaponTypes called");
+        // Create a new UnityWebRequest for a GET request to fetch all weapon types
+        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}WeaponType"))
+        {
+            // Retrieve the authentication token from PlayerPrefs
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                // Set the Authorization header with the token
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+            // Send the request and wait for the response
+            yield return request.SendWebRequest();
+            // Check if the request was successful
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                // Log the error message and invoke the callback with null
+                Debug.LogError($"Error fetching weapon types: {request.error}");
+                callback?.Invoke(null);
+                yield break;
+            }
+            // Retrieve the JSON response from the server
+            string json = request.downloadHandler.text;
+            Debug.Log($"Raw JSON received: {json}");
+            try
+            {
+                List<Weapon_WeaponTypeResponse> weaponTypes = JsonConvert.DeserializeObject<List<Weapon_WeaponTypeResponse>>(json);
+                if (weaponTypes != null)
+                {
+                    Debug.Log($"Fetched {weaponTypes.Count} weapon types.");
+                    callback?.Invoke(weaponTypes);
+                }
+                else
+                {
+                    Debug.LogError("Deserialized weapon type list is null.");
+                    callback?.Invoke(null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to parse weapon type data: {ex.Message}");
+                callback?.Invoke(null);
+            }
+        }
+    }
 }

@@ -25,7 +25,6 @@ public class WeaponResponse
     public FireMode fireMode;
     public Weapon_WeaponTypeResponse weaponType;
 }
-
 [System.Serializable]
 public class Weapon_WeaponTypeResponse
 {

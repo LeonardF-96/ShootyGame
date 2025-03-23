@@ -34,6 +34,14 @@ public class ScoreSummary
     public float averageAccuracy;
     public int moneyEarned;
 }
+//public class AdminScoreSummary
+//{
+//    public int scoreId;
+//    public int userId;
+//    public int scoreValue;
+//    public float roundTime;
+//    public float averageAccuracy;
+//}
 
 [System.Serializable]
 public class ScoreResponseList
