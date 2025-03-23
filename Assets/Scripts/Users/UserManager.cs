@@ -54,7 +54,37 @@ public class UserManager : MonoBehaviour
     {
         public List<T> items;
     }
+    public IEnumerator CreateUser(UserRequest userRequest, Action <bool> callback)
+    {
+        string json = JsonConvert.SerializeObject(userRequest);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
 
+        using (UnityWebRequest request = new UnityWebRequest($"{baseUrl}User", "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error creating user: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("User created successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
     public IEnumerator GetUserById(int userId, Action<UserResponse> callback)
     {
         Debug.Log($"Fetching user with id: {userId}, auth token: " + PlayerPrefs.GetString("authToken"));

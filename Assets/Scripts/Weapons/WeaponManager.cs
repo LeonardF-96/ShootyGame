@@ -20,7 +20,37 @@ public class WeaponManager : MonoBehaviour
         StartCoroutine(GetAllWeapons(callback));
         Debug.Log("Fetching all weapons...");
     }
+    public IEnumerator CreateWeapon(WeaponRequest weaponRequest, Action<bool> callback)
+    {
+        string json = JsonConvert.SerializeObject(weaponRequest);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
 
+        using (UnityWebRequest request = new UnityWebRequest($"{baseUrl}Weapon", "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error creating weapon: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Weapon created successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
     private IEnumerator GetAllWeapons(Action<List<WeaponResponse>> callback)
     {
         Debug.Log("GetAllWeapons called");
@@ -270,6 +300,34 @@ public class WeaponManager : MonoBehaviour
             {
                 Debug.LogError($"Failed to parse weapon type data: {ex.Message}");
                 callback?.Invoke(null);
+            }
+        }
+    }
+    //method to create weapon type
+    public IEnumerator CreateWeaponType(WeaponTypeRequest weaponTypeRequest, Action<bool> callback)
+    {
+        string json = JsonConvert.SerializeObject(weaponTypeRequest);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        using (UnityWebRequest request = new UnityWebRequest($"{baseUrl}WeaponType", "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error creating weapon type: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Weapon type created successfully.");
+                callback?.Invoke(true);
             }
         }
     }

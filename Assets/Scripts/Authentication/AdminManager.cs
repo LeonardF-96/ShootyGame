@@ -9,11 +9,12 @@ public class AdminManager : MonoBehaviour
 {
     [Header("Panels")]
     public GameObject adminPanel;
-    public GameObject descPanel;
+    public GameObject createPanel;
 
     [Header("Text fields")]
     public TMP_Text nameText;
-    public TMP_InputField descInputField; // Add this!
+    public TMP_InputField descInputField;
+    public TMP_InputField createInputField;
 
     [Header("Buttons")]
     public Button adminButton;
@@ -25,6 +26,7 @@ public class AdminManager : MonoBehaviour
     public Button weaponTypesButton;
 
     public Button createButton;
+    public Button confirmCreateButton;
     public Button deleteButton;
     public Button updateButton;
 
@@ -37,13 +39,7 @@ public class AdminManager : MonoBehaviour
     private UserManager userManager;
     private WeaponManager weaponManager;
 
-    private Dictionary<string, List<string>> tableSchemas = new Dictionary<string, List<string>>()
-    {
-        {"Scores", new List<string> { "ScoreId", "UserId", "ScoreValue", "AverageAccuracy", "RoundTime"} },
-        {"Users", new List<string> { "UserId", "UserName", "Email", "PlayerTag", "Money", "Role"} },
-        {"Weapons", new List<string> { "WeaponId", "WeaponTypeId", "Name", "Price", "ReloadSpeed", "MagSize", "FireRate", "FireMode"} },
-        {"WeaponType", new List<string> { "WeaponTypeId", "Name", "EquipmentSlot" } }
-    };
+    private string currentTableName;
 
     void Start()
     {
@@ -52,14 +48,34 @@ public class AdminManager : MonoBehaviour
         weaponManager = FindObjectOfType<WeaponManager>();
 
         adminPanel.SetActive(false);
+        createPanel.SetActive(false);
 
         adminButton.onClick.AddListener(OpenAdminPanel);
         backButton.onClick.AddListener(CloseAdminPanel);
 
-        scoresButton.onClick.AddListener(() => PopulateEntries("Scores"));
-        usersButton.onClick.AddListener(() => PopulateEntries("Users"));
-        weaponsButton.onClick.AddListener(() => PopulateEntries("Weapons"));
-        weaponTypesButton.onClick.AddListener(() => PopulateEntries("WeaponType"));
+        scoresButton.onClick.AddListener(() => {
+            currentTableName = "Scores";
+            PopulateEntries(currentTableName);
+            SetCreateTemplate(currentTableName);
+        });
+        usersButton.onClick.AddListener(() => {
+            currentTableName = "Users";
+            PopulateEntries(currentTableName);
+            SetCreateTemplate(currentTableName);
+        });
+        weaponsButton.onClick.AddListener(() => {
+            currentTableName = "Weapons";
+            PopulateEntries(currentTableName);
+            SetCreateTemplate(currentTableName);
+        });
+        weaponTypesButton.onClick.AddListener(() => {
+            currentTableName = "WeaponType";
+            PopulateEntries(currentTableName);
+            SetCreateTemplate(currentTableName);
+        });
+
+        createButton.onClick.AddListener(() => createPanel.SetActive(!createPanel.activeSelf));
+        confirmCreateButton.onClick.AddListener(ProcessCreateInput);
     }
 
     void PopulateEntries(string tableName)
@@ -127,6 +143,85 @@ public class AdminManager : MonoBehaviour
         {
             descInputField.text = jsonData; // Fill input field with JSON data
         });
+    }
+    void SetCreateTemplate(string tableName)
+    {
+        if (createInputField == null) return;
+
+        object template = tableName switch
+        {
+            "Scores" => new ScoreRequest { userId = 0, scoreValue = 0, roundTime = 0f, averageAccuracy = 0f, moneyEarned = 0},
+            "Users" => new UserRequest { username = "NewUser", email = "email@example.com", password = "password", role = 0 },
+            "Weapons" => new WeaponRequest { name = "NewWeapon", price = 0, reloadSpeed = 0f, magSize = 0, fireRate = 0, fireMode = 0, weaponTypeId = 0 },
+            "WeaponType" => new WeaponTypeRequest { name = "NewWeaponType", equipmentSlot = 0 },
+            _ => null
+        };
+
+        if (template != null)
+        {
+            createInputField.text = JsonConvert.SerializeObject(template, Formatting.Indented);
+        }
+    }
+    void ProcessCreateInput()
+    {
+        Debug.Log("Processing create input...");
+        string json = createInputField.text;
+        Debug.Log("json: " + json);
+        if (string.IsNullOrEmpty(json))
+        {
+            Debug.LogError("No JSON data found.");
+            return;
+        }
+        if (string.IsNullOrEmpty(currentTableName))
+        {
+            Debug.LogError("No table name found.");
+            return;
+        }
+        object data = currentTableName switch
+        {
+            "Scores" => JsonConvert.DeserializeObject<ScoreRequest>(json),
+            "Users" => JsonConvert.DeserializeObject<UserRequest>(json),
+            "Weapons" => JsonConvert.DeserializeObject<WeaponRequest>(json),
+            "WeaponType" => JsonConvert.DeserializeObject<WeaponTypeRequest>(json),
+            _ => null
+        };
+        if (data != null)
+        {
+            Debug.Log("data: " + data);
+            switch (currentTableName)
+            {
+                case "Scores":
+                    StartCoroutine(scoreManager.SendScoreToApi((ScoreRequest)data));
+                    break;
+                case "Users":
+                    StartCoroutine(userManager.CreateUser((UserRequest)data, result => HandleCreateResult(result, currentTableName)));
+                    break;
+                case "Weapons":
+                    StartCoroutine(weaponManager.CreateWeapon((WeaponRequest)data, result => HandleCreateResult(result, currentTableName)));
+                    break;
+                case "WeaponType":
+                    StartCoroutine(weaponManager.CreateWeaponType((WeaponTypeRequest)data, result => HandleCreateResult(result, currentTableName)));
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (data == null)
+        {
+            Debug.LogError("Failed to parse JSON data.");
+        }
+    }
+    void HandleCreateResult(bool result, string tableName)
+    {
+        if (result)
+        {
+            Debug.Log($"{tableName} created successfully.");
+            PopulateEntries(currentTableName); // Refresh the entries to show the new data
+        }
+        else
+        {
+            Debug.LogError($"Failed to create {tableName}.");
+        }
     }
 
     void OpenAdminPanel()

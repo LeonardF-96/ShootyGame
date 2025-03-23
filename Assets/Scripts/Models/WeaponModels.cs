@@ -32,6 +32,12 @@ public class Weapon_WeaponTypeResponse
     public string name;
     public EquipmentSlot equipmentSlot;
 }
+[System.Serializable]
+public class WeaponTypeRequest
+{
+    public string name;
+    public EquipmentSlot equipmentSlot;
+}
 
 [System.Serializable]
 public class WeaponResponseList
