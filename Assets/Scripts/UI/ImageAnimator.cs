@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class ImageAnimator : MonoBehaviour
 {
-    public float frameRate = 0.1f; // Time between frames
+    public float frameRate = 0.12f; // Time between frames
     private Transform[] frames;
     private int currentFrame;
     private bool isAnimating;
+    private bool isInitialized = false;
 
-    void Start()
+    private void InitializeFrames()
     {
         // Get all child images
         frames = new Transform[transform.childCount];
@@ -17,6 +18,7 @@ public class ImageAnimator : MonoBehaviour
             frames[i] = transform.GetChild(i);
             frames[i].gameObject.SetActive(false); // Hide all frames initially
         }
+        isInitialized = true;
         Debug.Log("frames.Length: " + frames.Length);
     }
 
@@ -25,6 +27,17 @@ public class ImageAnimator : MonoBehaviour
         Debug.Log("StartAnimation called");
         if (!isAnimating)
         {
+            if (!isInitialized)
+            {
+                InitializeFrames();
+            }
+
+            if (frames == null || frames.Length == 0)
+            {
+                Debug.LogError("No frames found for animation.");
+                return;
+            }
+
             StartCoroutine(Animate());
         }
     }
@@ -36,6 +49,13 @@ public class ImageAnimator : MonoBehaviour
 
         while (currentFrame >= 0)
         {
+            if (frames[currentFrame] == null)
+            {
+                Debug.LogError("Frame at index " + currentFrame + " is null.");
+                isAnimating = false;
+                yield break;
+            }
+
             // Show the current frame
             frames[currentFrame].gameObject.SetActive(true);
 
@@ -50,7 +70,10 @@ public class ImageAnimator : MonoBehaviour
         }
 
         // Show the last frame
-        frames[0].gameObject.SetActive(true);
+        if (frames[0] != null)
+        {
+            frames[0].gameObject.SetActive(true);
+        }
         isAnimating = false;
     }
 }

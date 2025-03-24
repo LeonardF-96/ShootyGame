@@ -34,10 +34,18 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                Debug.Log(request.downloadHandler.text);
-                string json = "{\"items\":" + request.downloadHandler.text + "}";
-                Wrapper<UserResponse> wrapper = JsonUtility.FromJson<Wrapper<UserResponse>>(json);
-                callback?.Invoke(wrapper.items);
+                string responseText = request.downloadHandler.text;
+                Debug.Log("API Response: " + responseText);
+                try
+                {
+                    List<UserResponse> users = JsonConvert.DeserializeObject<List<UserResponse>>(responseText);
+                    callback?.Invoke(users);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"JSON parse error: {e.Message}");
+                    callback?.Invoke(null);
+                }
             }
         }
     }
@@ -46,7 +54,37 @@ public class UserManager : MonoBehaviour
     {
         public List<T> items;
     }
+    public IEnumerator CreateUser(UserRequest userRequest, Action <bool> callback)
+    {
+        string json = JsonConvert.SerializeObject(userRequest);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
 
+        using (UnityWebRequest request = new UnityWebRequest($"{baseUrl}User", "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error creating user: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("User created successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
     public IEnumerator GetUserById(int userId, Action<UserResponse> callback)
     {
         Debug.Log($"Fetching user with id: {userId}, auth token: " + PlayerPrefs.GetString("authToken"));
@@ -216,4 +254,170 @@ public class UserManager : MonoBehaviour
             }
         }
     }
+    //_Friendships//////////////////////////////////////////////////////////
+    public IEnumerator DeleteFriendship(int userId, int friendId, Action<bool> callback)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Delete($"{baseUrl}User/{userId}/friends/{friendId}"))
+        {
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error deleting friendship: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Friendship deleted successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
+    public IEnumerator GetAllIncomingFriendRequestsById(int userId, Action<List<FriendRequestResponse>> callback)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}FriendReq/receiver/{userId}"))
+        {
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(request.error);
+                callback?.Invoke(null);
+            }
+            else
+            {
+                Debug.Log(request.downloadHandler.text);
+                try
+                {
+                    List<FriendRequestResponse> friendRequests = JsonConvert.DeserializeObject<List<FriendRequestResponse>>(request.downloadHandler.text);
+                    callback?.Invoke(friendRequests);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"JSON parse error: {e.Message}");
+                    callback?.Invoke(null);
+                }
+            }
+        }
+    }
+    public IEnumerator GetAllOutgoingFriendRequestsById(int userId, Action<List<FriendRequestResponse>> callback)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get($"{baseUrl}FriendReq/requester/{userId}"))
+        {
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(request.error);
+                callback?.Invoke(null);
+            }
+            else
+            {
+                Debug.Log(request.downloadHandler.text);
+                try
+                {
+                    List<FriendRequestResponse> friendRequests = JsonConvert.DeserializeObject<List<FriendRequestResponse>>(request.downloadHandler.text);
+                    callback?.Invoke(friendRequests);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"JSON parse error: {e.Message}");
+                    callback?.Invoke(null);
+                }
+            }
+        }
+    }
+    public IEnumerator SendFriendRequest(int userId, int friendId, Action<bool> callback)
+    {
+        string url = $"{baseUrl}FriendReq";
+        var requestData = new
+        {
+            requesterId = userId,
+            receiverId = friendId
+        };
+        string json = JsonConvert.SerializeObject(requestData);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error sending friend request: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Friend request sent successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
+    public IEnumerator UpdateFriendRequestStatus(int friendRequestId, FriendRequestStatus status, Action<bool> callback)
+    {
+        string url = $"{baseUrl}FriendReq/{friendRequestId}";
+        var requestData = new
+        {
+            status = status.ToString()
+        };
+        string json = JsonConvert.SerializeObject(requestData);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "PUT"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            string token = PlayerPrefs.GetString("authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                request.SetRequestHeader("Authorization", "Bearer " + token);
+            }
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error updating friend request status: {request.error}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Friend request status updated successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
+}
+
+public enum FriendRequestStatus
+{
+    Pending,
+    Accepted,
+    Declined,
+    Canceled
 }

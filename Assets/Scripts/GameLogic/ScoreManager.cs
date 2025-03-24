@@ -25,12 +25,6 @@ public class ScoreManager : MonoBehaviour
             yield break;
         }
 
-        //var scoreRequest = new ScoreRequest
-        //{
-        //    userId = userId,
-        //    scoreValue = score
-        //};
-
         string json = JsonUtility.ToJson(scoreRequest);
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 

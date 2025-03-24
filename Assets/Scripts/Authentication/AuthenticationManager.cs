@@ -135,7 +135,7 @@ public class AuthenticationManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(CreateUser(new UserRequest { username = username, email = email, password = password, role = role }));
+        StartCoroutine(CreateUserFromSignup(new UserRequest { username = username, email = email, password = password, role = role }));
         signUpUsernameInput.text = "";
         signUpEmailInput.text = "";
         signUpPasswordInput.text = "";
@@ -199,7 +199,7 @@ public class AuthenticationManager : MonoBehaviour
         }
     }
 
-    IEnumerator CreateUser(UserRequest newUser)
+    IEnumerator CreateUserFromSignup(UserRequest newUser)
     {
         string endpoint = "User";
         string jsonData = JsonUtility.ToJson(newUser);

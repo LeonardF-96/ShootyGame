@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +22,18 @@ public class UserResponse
     public string role;
     public List<User_WeaponResponse> weapons = new();
     public List<User_ScoreResponse> scores = new();
+    public List<FriendSummary> friends = new();
 }
+//[System.Serializable]
+//public class AdminUserSummary
+//{
+//    public int userId;
+//    public string userName;
+//    public string email;
+//    public string playerTag;
+//    public int money;
+//    public string role;
+//}
 
 [System.Serializable]
 public class SignInResponse
@@ -62,7 +74,21 @@ public class User_ScoreResponse
     public float roundTime;
     public float averageAccuracy;
 }
-
+[System.Serializable]
+public class FriendSummary
+{
+    public int userId;
+    public string userName;
+    public string playerTag;
+    public List<ScoreSummary> scores = new();
+}
+[System.Serializable]
+public class Request_UserFriend
+{
+    public int userId;
+    public string userName;
+    public string playerTag;
+}
 [System.Serializable]
 public class User_ResponseList
 {

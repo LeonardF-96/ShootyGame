@@ -25,11 +25,16 @@ public class WeaponResponse
     public FireMode fireMode;
     public Weapon_WeaponTypeResponse weaponType;
 }
-
 [System.Serializable]
 public class Weapon_WeaponTypeResponse
 {
     public int weaponTypeId;
+    public string name;
+    public EquipmentSlot equipmentSlot;
+}
+[System.Serializable]
+public class WeaponTypeRequest
+{
     public string name;
     public EquipmentSlot equipmentSlot;
 }
