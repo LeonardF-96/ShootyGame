@@ -135,7 +135,7 @@ public class AuthenticationManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(CreateUserFromSignup(new UserRequest { username = username, email = email, password = password, role = role }));
+        StartCoroutine(CreateUserFromSignup(new UserRequest { userName = username, email = email, password = password, role = role }));
         signUpUsernameInput.text = "";
         signUpEmailInput.text = "";
         signUpPasswordInput.text = "";

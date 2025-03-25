@@ -428,7 +428,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Scripts/Users
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -436,16 +436,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 96
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Scripts/Users
   m_LastFoldersGridSize: 96
   m_LastProjectPath: C:\Users\Leona\Github\ShootyGame
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 134.20001}
-    m_SelectedIDs: 847c0000
-    m_LastClickedID: 31876
-    m_ExpandedIDs: 000000003e7c0000407c0000427c0000
+    scrollPos: {x: 0, y: 74.20001}
+    m_SelectedIDs: b47c0000
+    m_LastClickedID: 31924
+    m_ExpandedIDs: 00000000907c0000927c0000947c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -473,7 +473,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000003e7c0000407c0000427c0000
+    m_ExpandedIDs: 00000000907c0000927c0000947c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c62300005c5b00000000000096ab0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -613,9 +613,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 46780000
-      m_LastClickedID: 30790
-      m_ExpandedIDs: f4efffff2efbffff84720000f67300003874000092760000c4770000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 2efbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

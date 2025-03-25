@@ -52,13 +52,80 @@ public class ScoreManager : MonoBehaviour
             }
         }
     }
+    public IEnumerator UpdateScoreById(int scoreId, ScoreRequest updatedScoreRequest, Action<bool> callback)
+    {
+        string token = PlayerPrefs.GetString("authToken", null);
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("No authToken found in PlayerPrefs.");
+            yield break;
+        }
 
+        string json = JsonUtility.ToJson(updatedScoreRequest);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(baseUrl + "score/" + scoreId, "PUT"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error: {request.error}");
+            }
+            else if (request.responseCode == 500)
+            {
+                Debug.LogError($"Server Error: {request.downloadHandler.text}");
+            }
+            else
+            {
+                Debug.Log("Score successfully updated.");
+                Debug.Log(request.downloadHandler.text);
+            }
+        }
+    }
+    public IEnumerator DeleteScoreById(int scoreId, Action<bool> callback)
+    {
+        string token = PlayerPrefs.GetString("authToken", null);
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("No authToken found in PlayerPrefs.");
+            callback?.Invoke(false);
+            yield break;
+        }
+
+        using (UnityWebRequest request = UnityWebRequest.Delete(baseUrl + "score/" + scoreId))
+        {
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error: {request.error}");
+                callback?.Invoke(false);
+            }
+            else if (request.responseCode == 500)
+            {
+                Debug.LogError($"Server Error: {request.downloadHandler.text}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Score successfully deleted.");
+                callback?.Invoke(true);
+            }
+        }
+    }
     public void FetchAllScores(Action<List<ScoreResponse>> callback)
     {
         StartCoroutine(GetAllScores(callback));
         Debug.Log("Fetching all scores...");
     }
-
     private IEnumerator GetAllScores(Action<List<ScoreResponse>> callback)
     {
         Debug.Log("Requesting URL: " + baseUrl + "Score");
@@ -95,12 +162,10 @@ public class ScoreManager : MonoBehaviour
             }
         }
     }
-
     public void FetchUserScores(int userId)
     {
         StartCoroutine(GetUserScores(userId));
     }
-
     private IEnumerator GetUserScores(int userId)
     {
         string endpoint = $"User/";
@@ -137,7 +202,6 @@ public class ScoreManager : MonoBehaviour
             }
         }
     }
-
     private class Wrapper<T>
     {
         public List<T> items;

@@ -175,7 +175,7 @@ public class ProfileManager : MonoBehaviour
 
             UserRequest userRequest = new UserRequest
             {
-                username = username,
+                userName = username,
                 password = password,
                 email = email,
                 role = userRole

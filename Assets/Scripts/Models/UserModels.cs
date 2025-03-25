@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class UserRequest
 {
-    public string username;
+    public string userName;
     public string email;
     public string password;
     public int role;
