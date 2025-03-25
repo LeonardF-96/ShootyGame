@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class UserRequest
 {
-    public string username;
+    public string userName;
     public string email;
     public string password;
     public int role;
@@ -24,16 +24,6 @@ public class UserResponse
     public List<User_ScoreResponse> scores = new();
     public List<FriendSummary> friends = new();
 }
-//[System.Serializable]
-//public class AdminUserSummary
-//{
-//    public int userId;
-//    public string userName;
-//    public string email;
-//    public string playerTag;
-//    public int money;
-//    public string role;
-//}
 
 [System.Serializable]
 public class SignInResponse

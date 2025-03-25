@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Linq;
 using System;
+using System.Text;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -51,6 +52,78 @@ public class WeaponManager : MonoBehaviour
             }
         }
     }
+    public IEnumerator UpdateWeaponById(int weaponId, WeaponRequest updatedWeaponRequest, Action<bool> callback)
+    {
+        string token = PlayerPrefs.GetString("authToken", null);
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("No authToken found in PlayerPrefs.");
+            callback?.Invoke(false);
+            yield break;
+        }
+
+        string json = JsonConvert.SerializeObject(updatedWeaponRequest);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(baseUrl + "Weapon/" + weaponId, "PUT"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error: {request.error}");
+                callback?.Invoke(false);
+            }
+            else if (request.responseCode == 500)
+            {
+                Debug.LogError($"Server Error: {request.downloadHandler.text}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Weapon successfully updated.");
+                callback?.Invoke(true);
+            }
+        }
+    }
+    public IEnumerator DeleteWeaponById(int weaponId, Action<bool> callback)
+    {
+        string token = PlayerPrefs.GetString("authToken", null);
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("No authToken found in PlayerPrefs.");
+            callback?.Invoke(false);
+            yield break;
+        }
+
+        using (UnityWebRequest request = UnityWebRequest.Delete(baseUrl + "Weapon/" + weaponId))
+        {
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error: {request.error}");
+                callback?.Invoke(false);
+            }
+            else if (request.responseCode == 500)
+            {
+                Debug.LogError($"Server Error: {request.downloadHandler.text}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Weapon successfully deleted.");
+                callback?.Invoke(true);
+            }
+        }
+    }
     private IEnumerator GetAllWeapons(Action<List<WeaponResponse>> callback)
     {
         Debug.Log("GetAllWeapons called");
@@ -79,14 +152,10 @@ public class WeaponManager : MonoBehaviour
 
             // Retrieve the JSON response from the server
             string json = request.downloadHandler.text;
-
-            // Hardcoded JSON response for testing
-            //string json = "{\"array\":[{\"weaponId\":1,\"name\":\"M9\",\"price\":0,\"reloadSpeed\":0.95,\"magSize\":15,\"fireRate\":600,\"fireMode\":\"0\",\"weaponType\":{\"weaponTypeId\":1,\"name\":\"Pistol\",\"equipmentSlot\":\"Secondary\"}},{\"weaponId\":2,\"name\":\"Tec9\",\"price\":400,\"reloadSpeed\":1.05,\"magSize\":18,\"fireRate\":1200,\"fireMode\":\"1\",\"weaponType\":{\"weaponTypeId\":2,\"name\":\"Machine Pistol\",\"equipmentSlot\":\"Secondary\"}},{\"weaponId\":3,\"name\":\"G36\",\"price\":0,\"reloadSpeed\":1.9,\"magSize\":30,\"fireRate\":750,\"fireMode\":\"1\",\"weaponType\":{\"weaponTypeId\":3,\"name\":\"Assault Rifle\",\"equipmentSlot\":\"Primary\"}},{\"weaponId\":4,\"name\":\"Scar-H\",\"price\":800,\"reloadSpeed\":1.82,\"magSize\":15,\"fireRate\":300,\"fireMode\":\"0\",\"weaponType\":{\"weaponTypeId\":4,\"name\":\"Marksman Rifle\",\"equipmentSlot\":\"Primary\"}}]}";
             Debug.Log($"Raw JSON received: {json}");
 
             try
             {
-                //fetchedWeapons = JsonHelper.FromJsonArray<WeaponResponse>(json);
                 fetchedWeapons = JsonConvert.DeserializeObject<List<WeaponResponse>>(json);
                 // Ensure fireMode strings are converted to the correct enum
                 if (fetchedWeapons != null)
@@ -190,48 +259,37 @@ public class WeaponManager : MonoBehaviour
     }
     private IEnumerator GetUserWeapons(int userId, Action<List<User_WeaponResponse>> callback)
     {
-        // Define the endpoint for fetching user-specific weapons
         string endpoint = $"User/{userId}";
-
-        // Create a new UnityWebRequest for a GET request to fetch user weapons
         using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + endpoint))
         {
-            // Retrieve the authentication token from PlayerPrefs
             string token = PlayerPrefs.GetString("authToken");
             if (!string.IsNullOrEmpty(token))
             {
-                // Set the Authorization header with the token
                 request.SetRequestHeader("Authorization", "Bearer " + token);
             }
 
-            // Send the request and wait for the response
             yield return request.SendWebRequest();
 
-            // Check if the request was successful
             if (request.result != UnityWebRequest.Result.Success)
             {
-                // Log the error message
                 Debug.LogError($"Error fetching user weapons: {request.error}");
                 callback?.Invoke(null);
                 yield break;
             }
 
-            // Retrieve the JSON response from the server
             string json = request.downloadHandler.text;
             Debug.Log($"User weapons JSON received: {json}");
 
             try
             {
-                // Parse the JSON response into the UserResponse class
                 UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(json);
-                //UserResponse userResponse = JsonUtility.FromJson<UserResponse>(json);
-                List<User_WeaponResponse> userWeapons = userResponse.weapons;
+                List<User_WeaponResponse> userWeapons = userResponse?.weapons ?? new List<User_WeaponResponse>();
                 callback?.Invoke(userWeapons);
             }
             catch (Exception ex)
             {
                 Debug.LogError($"Failed to parse user weapon data: {ex.Message}");
-                callback?.Invoke(null);
+                callback?.Invoke(new List<User_WeaponResponse>());
             }
         }
     }
@@ -327,6 +385,78 @@ public class WeaponManager : MonoBehaviour
             else
             {
                 Debug.Log("Weapon type created successfully.");
+                callback?.Invoke(true);
+            }
+        }
+    }
+    public IEnumerator UpdateWeaponTypeById(int weaponTypeId, WeaponTypeRequest updatedWeaponTypeRequest, Action<bool> callback)
+    {
+        string token = PlayerPrefs.GetString("authToken", null);
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("No authToken found in PlayerPrefs.");
+            callback?.Invoke(false);
+            yield break;
+        }
+
+        string json = JsonConvert.SerializeObject(updatedWeaponTypeRequest);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(baseUrl + "WeaponType/" + weaponTypeId, "PUT"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error: {request.error}");
+                callback?.Invoke(false);
+            }
+            else if (request.responseCode == 500)
+            {
+                Debug.LogError($"Server Error: {request.downloadHandler.text}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Weapon type successfully updated.");
+                callback?.Invoke(true);
+            }
+        }
+    }
+    public IEnumerator DeleteWeaponTypeById(int weaponTypeId, Action<bool> callback)
+    {
+        string token = PlayerPrefs.GetString("authToken", null);
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("No authToken found in PlayerPrefs.");
+            callback?.Invoke(false);
+            yield break;
+        }
+
+        using (UnityWebRequest request = UnityWebRequest.Delete(baseUrl + "WeaponType/" + weaponTypeId))
+        {
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"Error: {request.error}");
+                callback?.Invoke(false);
+            }
+            else if (request.responseCode == 500)
+            {
+                Debug.LogError($"Server Error: {request.downloadHandler.text}");
+                callback?.Invoke(false);
+            }
+            else
+            {
+                Debug.Log("Weapon type successfully deleted.");
                 callback?.Invoke(true);
             }
         }

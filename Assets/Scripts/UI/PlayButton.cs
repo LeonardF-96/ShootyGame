@@ -108,7 +108,17 @@ public class PlayButton : MonoBehaviour
         if (weapon.weaponType.equipmentSlot == EquipmentSlot.Secondary)
         {
             selectedSecondaryWeaponId = weapon.weaponId;
-            Debug.Log($"Selected Secondary Weapon ID: {selectedSecondaryWeaponId}");
+            // Save weapon stats for secondary weapon
+            PlayerPrefs.SetInt("SecondaryWeaponId", selectedSecondaryWeaponId);
+            PlayerPrefs.SetInt("SecondaryWeapon_FireRate", weapon.fireRate);
+            PlayerPrefs.SetFloat("SecondaryWeapon_ReloadSpeed", weapon.reloadSpeed);
+            PlayerPrefs.SetInt("SecondaryWeapon_MagSize", weapon.magSize);
+            PlayerPrefs.SetString("SecondaryWeapon_WeaponType", weapon.weaponType.name);
+            PlayerPrefs.SetString("SecondaryWeapon_WeaponName", weapon.name);
+            PlayerPrefs.SetString("SecondaryWeapon_FireMode", weapon.fireMode.ToString());
+
+            // Debug log for secondary weapon, showing fire rate, reload speed, mag size, weapon type, weapon name, and fire mode
+            Debug.Log("Selected Secondary Weapon Stats: FireRate - " + weapon.fireRate + ", ReloadSpeed - " + weapon.reloadSpeed + ", MagSize - " + weapon.magSize + ", WeaponType - " + weapon.weaponType.name + ", WeaponName - " + weapon.name + ", FireMode - " + weapon.fireMode);
 
             // Highlight the selected button and reset the previous selection
             if (selectedSecondaryButton != null)
@@ -121,7 +131,17 @@ public class PlayButton : MonoBehaviour
         else if (weapon.weaponType.equipmentSlot == EquipmentSlot.Primary)
         {
             selectedPrimaryWeaponId = weapon.weaponId;
-            Debug.Log($"Selected Primary Weapon ID: {selectedPrimaryWeaponId}");
+            // Save weapon stats for primary weapon
+            PlayerPrefs.SetInt("PrimaryWeaponId", selectedPrimaryWeaponId);
+            PlayerPrefs.SetInt("PrimaryWeapon_FireRate", weapon.fireRate);
+            PlayerPrefs.SetFloat("PrimaryWeapon_ReloadSpeed", weapon.reloadSpeed);
+            PlayerPrefs.SetInt("PrimaryWeapon_MagSize", weapon.magSize);
+            PlayerPrefs.SetString("PrimaryWeapon_WeaponType", weapon.weaponType.name);
+            PlayerPrefs.SetString("PrimaryWeapon_WeaponName", weapon.name);
+            PlayerPrefs.SetString("PrimaryWeapon_FireMode", weapon.fireMode.ToString());
+
+            // Debug log for primary weapon, showing fire rate, reload speed, mag size, weapon type, weapon name, and fire mode
+            Debug.Log("Selected Primary Weapon Stats: FireRate - " + weapon.fireRate + ", ReloadSpeed - " + weapon.reloadSpeed + ", MagSize - " + weapon.magSize + ", WeaponType - " + weapon.weaponType.name + ", WeaponName - " + weapon.name + ", FireMode - " + weapon.fireMode);
 
             // Highlight the selected button and reset the previous selection
             if (selectedPrimaryButton != null)
@@ -131,6 +151,8 @@ public class PlayButton : MonoBehaviour
             selectedPrimaryButton = weaponButton;
             HighlightButton(weaponButton, true);
         }
+
+        PlayerPrefs.Save();
     }
 
     private void HighlightButton(Button button, bool highlight)
@@ -142,38 +164,6 @@ public class PlayButton : MonoBehaviour
 
     private void OnConfirmWeaponSelection()
     {
-        // Save primary and secondary weapon choices to PlayerPrefs
-        PlayerPrefs.SetInt("PrimaryWeaponId", selectedPrimaryWeaponId);
-
-        // Save weapon stats for primary weapon
-        WeaponResponse primaryWeapon = weaponManager.GetWeaponById(selectedPrimaryWeaponId);
-        if (primaryWeapon != null)
-        {
-            PlayerPrefs.SetInt("PrimaryWeapon_FireRate", primaryWeapon.fireRate);
-            PlayerPrefs.SetFloat("PrimaryWeapon_ReloadSpeed", primaryWeapon.reloadSpeed);
-            PlayerPrefs.SetInt("PrimaryWeapon_MagSize", primaryWeapon.magSize);
-            PlayerPrefs.SetString("PrimaryWeapon_WeaponType", primaryWeapon.weaponType.name);
-            PlayerPrefs.SetString("PrimaryWeapon_WeaponName", primaryWeapon.name);
-            PlayerPrefs.SetString("PrimaryWeapon_FireMode", primaryWeapon.fireMode.ToString());
-        }
-
-        PlayerPrefs.SetInt("SecondaryWeaponId", selectedSecondaryWeaponId);
-
-        // Save weapon stats for secondary weapon
-        WeaponResponse secondaryWeapon = weaponManager.GetWeaponById(selectedSecondaryWeaponId);
-        if (secondaryWeapon != null)
-        {
-            PlayerPrefs.SetInt("SecondaryWeapon_FireRate", secondaryWeapon.fireRate);
-            PlayerPrefs.SetFloat("SecondaryWeapon_ReloadSpeed", secondaryWeapon.reloadSpeed);
-            PlayerPrefs.SetInt("SecondaryWeapon_MagSize", secondaryWeapon.magSize);
-            PlayerPrefs.SetString("SecondaryWeapon_WeaponType", secondaryWeapon.weaponType.name);
-            PlayerPrefs.SetString("SecondaryWeapon_WeaponName", secondaryWeapon.name);
-            PlayerPrefs.SetString("SecondaryWeapon_FireMode", secondaryWeapon.fireMode.ToString());
-        }
-
-        PlayerPrefs.Save();
-        Debug.Log("Saved PrimaryWeaponId: " + selectedPrimaryWeaponId);
-        Debug.Log("Saved SecondaryWeaponId: " + selectedSecondaryWeaponId);
         Debug.Log("Weapon confirmed! Loading GameScene...");
 
         // Load the game scene
