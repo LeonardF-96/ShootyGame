@@ -3,32 +3,56 @@
   "WorkspaceRootPath": "C:\\Users\\Leona\\Github\\ShootyGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\models\\weaponmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\models\\weaponmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\weapons\\weaponmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\weapons\\weaponmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\storemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\storemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\authentication\\adminmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\authentication\\adminmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\models\\usermodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\models\\usermodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\users\\profilemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\users\\profilemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\authentication\\logoutbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\authentication\\logoutbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\authentication\\authenticationmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\authentication\\authenticationmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\authentication\\logoutbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\authentication\\logoutbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\playbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\playbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\weapons\\weaponhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\weapons\\weaponhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\weapons\\weaponmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\weapons\\weaponmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|c:\\users\\leona\\github\\shootygame\\assets\\scripts\\models\\weaponmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\models\\weaponmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\models\\usermodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\models\\usermodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\authentication\\adminmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\authentication\\adminmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|c:\\users\\leona\\github\\shootygame\\assets\\scripts\\users\\helpers\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\users\\helpers\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\users\\profilemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\users\\profilemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\highscoremanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -37,10 +61,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\weapons\\helpers\\firemode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\weapons\\helpers\\firemode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\playbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\playbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\weapons\\helpers\\equipmentslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -59,24 +79,8 @@
       "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamelogic\\gamestartmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\weapons\\weaponhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\weapons\\weaponhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\users\\friendsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\users\\friendsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\storemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\storemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\mainmenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\ui\\imageanimator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -95,7 +99,7 @@
       "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\models\\scoremodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|c:\\users\\leona\\github\\shootygame\\assets\\scripts\\player\\playercameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|C:\\Users\\Leona\\Github\\ShootyGame\\assets\\scripts\\player\\playercameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AA2702D2-0061-6EF7-BD94-DD6CAA291B65}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playercameracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -106,63 +110,115 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 22,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
+              "Title": "LogoutButton.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\LogoutButton.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Authentication\\LogoutButton.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\LogoutButton.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Authentication\\LogoutButton.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAABsAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:35:36.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StoreManager.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\StoreManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\StoreManager.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\StoreManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\StoreManager.cs",
+              "ViewState": "AgIAAOUAAAAAAAAAAAAAAPEAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T13:22:57.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainMenuController.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\MainMenuController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\MainMenuController.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\MainMenuController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\MainMenuController.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAwwFUAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T12:08:39.785Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "AuthenticationManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\AuthenticationManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Authentication\\AuthenticationManager.cs",
               "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\AuthenticationManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Authentication\\AuthenticationManager.cs",
-              "ViewState": "AgIAAI8AAAAAAAAAAAAMwI0AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAxwEEAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-13T03:11:52.822Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\GameLogic\\GameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameLogic\\GameManager.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\GameLogic\\GameManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameLogic\\GameManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T03:15:30.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "WeaponManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\WeaponManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Weapons\\WeaponManager.cs",
               "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\WeaponManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Weapons\\WeaponManager.cs",
-              "ViewState": "AgIAAEoBAAAAAAAAAIA8wKAAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAMsAAAAAAAAAAAAiwAgBAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-14T08:21:12.375Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AdminManager.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\AdminManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Authentication\\AdminManager.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\AdminManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Authentication\\AdminManager.cs",
-              "ViewState": "AgIAAHMBAAAAAAAAAAAiwL0AAAAkAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "WeaponModels.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Models\\WeaponModels.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Models\\WeaponModels.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Models\\WeaponModels.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Models\\WeaponModels.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAzwAwAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-21T12:38:35.428Z",
+              "WhenOpened": "2025-03-13T13:20:39.902Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "WeaponHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\WeaponHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Weapons\\WeaponHandler.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\WeaponHandler.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Weapons\\WeaponHandler.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAYwA8AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T12:48:04.243Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 23,
-              "Title": "PlayerCameraController.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Player\\PlayerCameraController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerCameraController.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Player\\PlayerCameraController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerCameraController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T12:28:11.659Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
               "Title": "ScoreModels.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Models\\ScoreModels.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Models\\ScoreModels.cs",
@@ -170,12 +226,49 @@
               "RelativeToolTip": "Assets\\Scripts\\Models\\ScoreModels.cs",
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T13:20:31.247Z",
+              "WhenOpened": "2025-03-13T13:20:31.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "PlayerCameraController.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Player\\PlayerCameraController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerCameraController.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Player\\PlayerCameraController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerCameraController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-24T12:28:11.659Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AdminManager.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\AdminManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Authentication\\AdminManager.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\AdminManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Authentication\\AdminManager.cs",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAuwL0AAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-21T12:38:35.428Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 11,
+              "Title": "status.cs",
+              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Users\\Helpers\\status.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Users\\Helpers\\status.cs",
+              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Users\\Helpers\\status.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Users\\Helpers\\status.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T07:21:27.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
               "Title": "ScoreManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\GameLogic\\ScoreManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameLogic\\ScoreManager.cs",
@@ -183,12 +276,11 @@
               "RelativeToolTip": "Assets\\Scripts\\GameLogic\\ScoreManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAABrAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T03:15:13.282Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T03:15:13.282Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "UserManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Users\\UserManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Users\\UserManager.cs",
@@ -196,12 +288,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Users\\UserManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T03:14:42.713Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T03:14:42.713Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "ImageAnimator.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\ImageAnimator.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\ImageAnimator.cs",
@@ -209,38 +300,11 @@
               "RelativeToolTip": "Assets\\Scripts\\UI\\ImageAnimator.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAQwAUAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T01:51:32.92Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T01:51:32.92Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "MainMenuController.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\MainMenuController.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\MainMenuController.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\MainMenuController.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\MainMenuController.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAAwHwAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T12:08:39.785Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "StoreManager.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\StoreManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\StoreManager.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\StoreManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\StoreManager.cs",
-              "ViewState": "AgIAAKwAAAAAAAAAAAAwwJwAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T13:22:57.698Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "FriendsManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Users\\FriendsManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Users\\FriendsManager.cs",
@@ -248,12 +312,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Users\\FriendsManager.cs",
               "ViewState": "AgIAAOoAAAAAAAAAAAAgwAUBAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-20T12:29:04.359Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-20T12:29:04.359Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "ProfileManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Users\\ProfileManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Users\\ProfileManager.cs",
@@ -266,33 +329,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\GameLogic\\GameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameLogic\\GameManager.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\GameLogic\\GameManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameLogic\\GameManager.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAswHIAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T03:15:30.112Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "WeaponHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\WeaponHandler.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Weapons\\WeaponHandler.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\WeaponHandler.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Weapons\\WeaponHandler.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAA9wIQAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-18T12:48:04.243Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "GameStartManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\GameLogic\\GameStartManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameLogic\\GameStartManager.cs",
@@ -300,12 +337,11 @@
               "RelativeToolTip": "Assets\\Scripts\\GameLogic\\GameStartManager.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAQwDMAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T18:27:43.89Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-14T18:27:43.89Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "GunController.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\GunController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Weapons\\GunController.cs",
@@ -313,12 +349,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Weapons\\GunController.cs",
               "ViewState": "AgIAADMAAAAAAAAAAAAgwEYAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T13:22:27.237Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T13:22:27.237Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "Target.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\GameLogic\\Target.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\GameLogic\\Target.cs",
@@ -326,12 +361,11 @@
               "RelativeToolTip": "Assets\\Scripts\\GameLogic\\Target.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAQwAUAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T13:22:01.621Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-14T13:22:01.621Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "EquipmentSlot.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\Helpers\\EquipmentSlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Weapons\\Helpers\\EquipmentSlot.cs",
@@ -339,25 +373,24 @@
               "RelativeToolTip": "Assets\\Scripts\\Weapons\\Helpers\\EquipmentSlot.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T19:42:47.368Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-14T19:42:47.368Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
               "Title": "PlayButton.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\PlayButton.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\PlayButton.cs",
               "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\PlayButton.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\PlayButton.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAADgv58AAABLAAAAAAAAAA==",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAAAKsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-13T13:23:56.955Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 14,
               "Title": "FireMode.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Weapons\\Helpers\\FireMode.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Weapons\\Helpers\\FireMode.cs",
@@ -365,12 +398,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Weapons\\Helpers\\FireMode.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-14T07:18:22.034Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-14T07:18:22.034Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 13,
               "Title": "HighscoreManager.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\UI\\HighscoreManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\HighscoreManager.cs",
@@ -378,44 +410,17 @@
               "RelativeToolTip": "Assets\\Scripts\\UI\\HighscoreManager.cs",
               "ViewState": "AgIAAIIAAAAAAAAAAAAgwJUAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T12:27:50.534Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T12:27:50.534Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "LogoutButton.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\LogoutButton.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Authentication\\LogoutButton.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Authentication\\LogoutButton.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Authentication\\LogoutButton.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAQwAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T12:35:36.204Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "WeaponModels.cs",
-              "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Models\\WeaponModels.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Models\\WeaponModels.cs",
-              "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Models\\WeaponModels.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Models\\WeaponModels.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAQwAwAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T13:20:39.902Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 9,
               "Title": "UserModels.cs",
               "DocumentMoniker": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Models\\UserModels.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Models\\UserModels.cs",
               "ToolTip": "C:\\Users\\Leona\\Github\\ShootyGame\\Assets\\Scripts\\Models\\UserModels.cs",
               "RelativeToolTip": "Assets\\Scripts\\Models\\UserModels.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwFQAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-20T14:54:39.867Z",
               "EditorCaption": ""

@@ -152,9 +152,6 @@ public class WeaponManager : MonoBehaviour
 
             // Retrieve the JSON response from the server
             string json = request.downloadHandler.text;
-
-            // Hardcoded JSON response for testing
-            //string json = "{\"array\":[{\"weaponId\":1,\"name\":\"M9\",\"price\":0,\"reloadSpeed\":0.95,\"magSize\":15,\"fireRate\":600,\"fireMode\":\"0\",\"weaponType\":{\"weaponTypeId\":1,\"name\":\"Pistol\",\"equipmentSlot\":\"Secondary\"}},{\"weaponId\":2,\"name\":\"Tec9\",\"price\":400,\"reloadSpeed\":1.05,\"magSize\":18,\"fireRate\":1200,\"fireMode\":\"1\",\"weaponType\":{\"weaponTypeId\":2,\"name\":\"Machine Pistol\",\"equipmentSlot\":\"Secondary\"}},{\"weaponId\":3,\"name\":\"G36\",\"price\":0,\"reloadSpeed\":1.9,\"magSize\":30,\"fireRate\":750,\"fireMode\":\"1\",\"weaponType\":{\"weaponTypeId\":3,\"name\":\"Assault Rifle\",\"equipmentSlot\":\"Primary\"}},{\"weaponId\":4,\"name\":\"Scar-H\",\"price\":800,\"reloadSpeed\":1.82,\"magSize\":15,\"fireRate\":300,\"fireMode\":\"0\",\"weaponType\":{\"weaponTypeId\":4,\"name\":\"Marksman Rifle\",\"equipmentSlot\":\"Primary\"}}]}";
             Debug.Log($"Raw JSON received: {json}");
 
             try
@@ -262,48 +259,37 @@ public class WeaponManager : MonoBehaviour
     }
     private IEnumerator GetUserWeapons(int userId, Action<List<User_WeaponResponse>> callback)
     {
-        // Define the endpoint for fetching user-specific weapons
         string endpoint = $"User/{userId}";
-
-        // Create a new UnityWebRequest for a GET request to fetch user weapons
         using (UnityWebRequest request = UnityWebRequest.Get(baseUrl + endpoint))
         {
-            // Retrieve the authentication token from PlayerPrefs
             string token = PlayerPrefs.GetString("authToken");
             if (!string.IsNullOrEmpty(token))
             {
-                // Set the Authorization header with the token
                 request.SetRequestHeader("Authorization", "Bearer " + token);
             }
 
-            // Send the request and wait for the response
             yield return request.SendWebRequest();
 
-            // Check if the request was successful
             if (request.result != UnityWebRequest.Result.Success)
             {
-                // Log the error message
                 Debug.LogError($"Error fetching user weapons: {request.error}");
                 callback?.Invoke(null);
                 yield break;
             }
 
-            // Retrieve the JSON response from the server
             string json = request.downloadHandler.text;
             Debug.Log($"User weapons JSON received: {json}");
 
             try
             {
-                // Parse the JSON response into the UserResponse class
                 UserResponse userResponse = JsonConvert.DeserializeObject<UserResponse>(json);
-                //UserResponse userResponse = JsonUtility.FromJson<UserResponse>(json);
-                List<User_WeaponResponse> userWeapons = userResponse.weapons;
+                List<User_WeaponResponse> userWeapons = userResponse?.weapons ?? new List<User_WeaponResponse>();
                 callback?.Invoke(userWeapons);
             }
             catch (Exception ex)
             {
                 Debug.LogError($"Failed to parse user weapon data: {ex.Message}");
-                callback?.Invoke(null);
+                callback?.Invoke(new List<User_WeaponResponse>());
             }
         }
     }

@@ -76,20 +76,6 @@ public class AuthenticationManager : MonoBehaviour
         loginPanel.SetActive(false);
     }
 
-    //public void Logout()
-    //{
-    //    PlayerPrefs.DeleteKey("authToken");
-    //    PlayerPrefs.DeleteKey("userData");
-    //    PlayerPrefs.DeleteKey("userId");
-    //    Debug.Log("authToken: " + PlayerPrefs.GetString("authToken") + " userData: " + PlayerPrefs.GetString("userData") + " userId: " + PlayerPrefs.GetInt("userId"));
-    //    PlayerPrefs.Save();
-
-    //    ResetAuthenticationManager();
-
-    //    mainMenuController.UpdateLoggedInText("Logged out", 0);
-    //    mainMenuController.SetAuthDependentButtonsActive(false);
-    //}
-
     void ResetAuthenticationManager()
     {
         loginEmailInput.text = "";
@@ -264,7 +250,14 @@ public class AuthenticationManager : MonoBehaviour
         {
             weaponManager.FetchUserWeapons(user.userId, (weapons) =>
             {
-                Debug.Log("Fetched user weapons: " + weapons.Count);
+                if (weapons != null)
+                {
+                    Debug.Log("Fetched user weapons: " + weapons.Count);
+                }
+                else
+                {
+                    Debug.LogError("Failed to fetch user weapons.");
+                }
             });
         }
         else
@@ -290,9 +283,10 @@ public class AuthenticationManager : MonoBehaviour
         }
 
         mainMenuController.SetAuthDependentButtonsActive(true);
+        mainMenuController.SetAdminButtonActive(user.role == "Admin");
     }
 
-    IEnumerator ValidateToken(string token)
+    public IEnumerator ValidateToken(string token)
     {
         int userId = PlayerPrefs.GetInt("userId", -1);
         if (userId == -1)
@@ -318,6 +312,12 @@ public class AuthenticationManager : MonoBehaviour
                 Debug.LogError($"Error: {request.error}");
                 Debug.LogError($"Response Code: {request.responseCode}");
                 Debug.LogError($"Response: {request.downloadHandler.text}");
+
+                if (request.responseCode == 401)
+                {
+                    Debug.LogError("Token expired or invalid. Prompting user to log in again.");
+                    loginPanel.SetActive(true);
+                }
             }
             else if (request.responseCode == 400)
             {
@@ -327,12 +327,12 @@ public class AuthenticationManager : MonoBehaviour
             {
                 Debug.Log($"Response: {request.downloadHandler.text}");
                 // Deserialize the response data
-                string userDataJson = PlayerPrefs.GetString("userData");
-                if (!string.IsNullOrEmpty(userDataJson))
+                SignInResponse user = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
+                if (user != null)
                 {
-                    SignInResponse user = JsonUtility.FromJson<SignInResponse>(userDataJson);
                     // Store updated user data in PlayerPrefs
-                    PlayerPrefs.SetString("userData", request.downloadHandler.text);
+                    string userDataJson = JsonUtility.ToJson(user);
+                    PlayerPrefs.SetString("userData", userDataJson);
                     PlayerPrefs.Save();
 
                     // Authenticate the user with fresh data

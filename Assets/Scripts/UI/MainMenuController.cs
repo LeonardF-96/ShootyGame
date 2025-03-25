@@ -23,9 +23,12 @@ public class MainMenuController : MonoBehaviour
     public GameObject adminPanel;
     public GameObject wpnChoicePanel;
 
+    private AuthenticationManager authManager;
+
     void Start()
     {
         Debug.Log("MainMenuController Start called.");
+        authManager = FindObjectOfType<AuthenticationManager>();
 
         if (EventSystem.current == null)
         {
@@ -66,9 +69,22 @@ public class MainMenuController : MonoBehaviour
     void OnEnable()
     {
         Debug.Log("MainMenuController OnEnable called.");
+        authManager = FindObjectOfType<AuthenticationManager>();
         AssignUIElements();
         HidePanels();
         UpdateUI();
+    }
+    void Awake()
+    {
+        if (FindObjectsOfType<MainMenuController>().Length > 1)
+        {
+            Destroy(gameObject);
+            Debug.Log("Duplicate MainMenuController destroyed.");
+            return;
+        }
+        //debug log
+        Debug.Log("MainMenuController Awake called.");
+        DontDestroyOnLoad(gameObject);
     }
 
     void AssignUIElements()
@@ -104,6 +120,7 @@ public class MainMenuController : MonoBehaviour
         if (storePanel != null) storePanel.SetActive(false);
         if (highscorePanel != null) highscorePanel.SetActive(false);
         if (wpnChoicePanel != null) wpnChoicePanel.SetActive(false);
+        if (adminPanel != null) adminPanel.SetActive(false);
     }
 
     public void UpdateUI()
@@ -118,17 +135,15 @@ public class MainMenuController : MonoBehaviour
             string userDataJson = PlayerPrefs.GetString("userData");
             if (!string.IsNullOrEmpty(userDataJson))
             {
-                UserResponse user = JsonUtility.FromJson<UserResponse>(userDataJson);
+                SignInResponse user = JsonUtility.FromJson<SignInResponse>(userDataJson);
                 UpdateLoggedInText(user.userName, user.money);
                 SetAuthDependentButtonsActive(true);
-                SetAdminButtonActive(user.role == "Admin"); // Show admin button if user role is 1
+                SetAdminButtonActive(user.role == "Admin"); // Show admin button if user role is "Admin"
             }
             else
             {
-                Debug.LogWarning("No user data found in PlayerPrefs.");
-                UpdateLoggedInText("Logged out", 0);
-                SetAuthDependentButtonsActive(false);
-                SetAdminButtonActive(false); // Hide admin button
+                Debug.LogWarning("No user data found in PlayerPrefs. Validating token...");
+                StartCoroutine(authManager.ValidateToken(token));
             }
         }
         else
@@ -180,7 +195,10 @@ public class MainMenuController : MonoBehaviour
     public void SetAdminButtonActive(bool isActive)
     {
         Debug.Log("SetAdminButtonActive called with isActive: " + isActive);
-
-        if (adminButton != null) adminButton.gameObject.SetActive(isActive);
+        if (adminButton != null)
+        {
+            adminButton.gameObject.SetActive(isActive);
+            adminButton.interactable = isActive; // Set the button's interactable state
+        }
     }
 }
